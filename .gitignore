@@ -2,5 +2,5 @@
 .vscode
 *.dSYM
 obj
-a.out
+libft.a
 cub3D

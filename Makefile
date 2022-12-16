@@ -8,6 +8,8 @@ SRC				= 	main.c \
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
 INCLUDE			= -I${INC_DIR}
+MLX				= -L . -lmlx42
+LIBFT			= -L libft -lft
 
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra
@@ -19,7 +21,8 @@ RM				= rm -rf
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	@${CC} -o ${NAME} ${INCLUDE} ${OBJS} ${CFLAGS}
+	make -C libft
+	@${CC} -o ${NAME} ${MLX} ${LIBFT} ${INCLUDE} ${OBJS} ${CFLAGS}
 
 ${OUT_DIR}%.o: %.c Makefile
 	@${MKDIR} ${OUT_DIR}
@@ -27,10 +30,12 @@ ${OUT_DIR}%.o: %.c Makefile
 	@${CC} ${CFLAGS} ${INCLUDE} $< -c -o $@
 
 clean:
+	make clean -C libft
 	@${RM} ${OBJS}
 	@${RM} ${OUT_DIR}
 
 fclean:	clean
+	make fclean -C libft
 	@${RM} ${NAME}
 
 re: fclean ${NAME}
