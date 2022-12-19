@@ -3,18 +3,27 @@ INC_DIR			= ./include/
 SRC_DIR			= ./src/
 OUT_DIR			= ./obj/
 
-SRC				= 	main.c \
+SRC				= 	main.c
+SRC				+=	sl_map.c \
+					sl_draw.c \
+					sl_key_hook.c \
+					sl_error.c \
+					sl_path_check.c \
+					sl_misc.c \
+					get_next_line.c \
+					get_next_line_utils.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
 INCLUDE			= -I${INC_DIR}
-MLX				= -L . -lmlx42
+# MLX				= -L. -lmlx42
+# GLFW			= -L/Users/gbaumgar/goinfre/homebrew/Cellar/glfw/3.3.8/lib -lglfw
 LIBFT			= -L libft -lft
 
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra
 # CFLAGS			+= -Werror
-# CFLAGS			+= -fsanitize=address
+CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 
@@ -22,7 +31,8 @@ all: ${NAME}
 
 ${NAME}: ${OBJS}
 	make -C libft
-	@${CC} -o ${NAME} ${MLX} ${LIBFT} ${INCLUDE} ${OBJS} ${CFLAGS}
+#	@${CC} ${MLX} ${GLFW} ${NAME} ${LIBFT} ${INCLUDE} ${OBJS} ${CFLAGS}
+	@${CC} libmlx42.a -lglfw -L/Users/gbaumgar/goinfre/homebrew/Cellar/glfw/3.3.8/lib -o ${NAME} ${LIBFT} ${INCLUDE} ${OBJS} ${CFLAGS}
 
 ${OUT_DIR}%.o: %.c Makefile
 	@${MKDIR} ${OUT_DIR}

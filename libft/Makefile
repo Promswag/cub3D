@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/21 10:13:56 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/12/16 12:42:41 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/12/16 12:45:19 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ AR				= ar rc
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
 MKDIR			= mkdir -p
-RM				= rm -f
+RM				= rm -rf
 
 all: ${NAME}
 
