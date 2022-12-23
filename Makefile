@@ -3,15 +3,10 @@ INC_DIR			= ./include/
 SRC_DIR			= ./src/
 OUT_DIR			= ./obj/
 
-SRC				= 	main.c
-SRC				+=	sl_map.c \
-					sl_draw.c \
-					sl_key_hook.c \
-					sl_error.c \
-					sl_path_check.c \
-					sl_misc.c \
+SRC				= 	main.c \
 					get_next_line.c \
 					get_next_line_utils.c \
+					utils.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}

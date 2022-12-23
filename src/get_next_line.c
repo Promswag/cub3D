@@ -6,84 +6,80 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 14:32:05 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/06/10 18:39:04 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/12/22 13:44:34 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	gnl_is_a_line(char *str)
+static int	gnl_isaline(char *s)
 {
 	int	i;
 
 	i = -1;
-	while (str[++i])
-		if (str[i] == '\n')
-			return (i);
+	if (s)
+		while (s[++i])
+			if (s[i] == '\n')
+				return (i + 1);
 	return (-1);
 }
 
-static char	*gnl_buffer_handler(int fd, char *str)
+static char	*gnl_line_handler(char **s)
+{
+	char	*line;
+	char	*tmp;
+	int		index;
+
+	index = gnl_isaline(*s);
+	if (index == -1)
+	{
+		line = *s;
+		*s = NULL;
+		return (line);
+	}
+	line = ft_strldup(*s, index);
+	tmp = ft_strldup(*s + index, ft_strlen(*s + index));
+	free(*s);
+	*s = tmp;
+	return (line);
+}
+
+static void	gnl_buffer_handler(int fd, char **s)
 {
 	char	buffer[BUFFER_SIZE + 1];
+	char	*tmp;
 	int		reading;
 
 	reading = 1;
-	if (!str)
-		return (NULL);
-	while (gnl_is_a_line(str) == -1 && reading)
+	while (reading && gnl_isaline(*s) == -1)
 	{
 		reading = read(fd, buffer, BUFFER_SIZE);
 		if (reading < 0)
-		{
-			free(str);
-			return (NULL);
-		}
-		buffer[reading] = '\0';
-		str = ft_strjoin_gnl(str, buffer);
+			break ;
+		buffer[reading] = 0;
+		tmp = ft_strjoin(*s, buffer);
+		free(*s);
+		*s = tmp;
 	}
-	return (str);
-}
-
-char	*gnl_retrieve_line(char **str)
-{
-	char	*line;
-	char	*next_line;
-	int		index;
-
-	index = gnl_is_a_line(*str);
-	if (index == -1)
-	{
-		line = *str;
-		*str = NULL;
-		return (line);
-	}
-	line = ft_substr_gnl(*str, 0, index + 1);
-	next_line = ft_substr_gnl(*str, index + 1, ft_strlen_gnl(*str) - index - 1);
-	free(*str);
-	*str = next_line;
-	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*tmp;
+	static char	*s;
 
-	if (fd < 0)
-		return (NULL);
-	if (!tmp)
+	if (!s)
 	{
-		tmp = malloc(sizeof(char));
-		*tmp = '\0';
+		s = malloc(1);
+		if (!s)
+			return (NULL);
+		*s = 0;
 	}
-	tmp = gnl_buffer_handler(fd, tmp);
-	if (!tmp)
-		return (NULL);
-	if (!ft_strlen_gnl(tmp))
+	gnl_buffer_handler(fd, &s);
+	if (!*s)
 	{
-		free(tmp);
-		tmp = NULL;
-		return (NULL);
+		free(s);
+		s = NULL;
+		return (s);
 	}
-	return (gnl_retrieve_line(&tmp));
+	return (gnl_line_handler(&s));
 }
