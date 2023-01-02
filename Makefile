@@ -7,6 +7,7 @@ SRC				= 	main.c \
 					get_next_line.c \
 					get_next_line_utils.c \
 					utils.c \
+					cub3d_minimap.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
