@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/02 16:54:27 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/03 17:01:18 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,6 @@
 # define PI 3.14159265359
 # define FOV 60
 
-typedef enum e_keys {
-	W = MLX_KEY_W,
-	S = MLX_KEY_S,
-	A = MLX_KEY_A,
-	D = MLX_KEY_D,
-	UP = MLX_KEY_UP,
-	DO = MLX_KEY_DOWN,
-	LE = MLX_KEY_LEFT,
-	RI = MLX_KEY_RIGHT,
-}	t_enum_keys;
-
 typedef struct s_point
 {
 	float	x;
@@ -51,7 +40,6 @@ typedef struct s_player
 {
 	float	angle;
 	t_point	coord;
-	t_point	delta;
 }	t_player;
 
 typedef struct s_keys
@@ -60,6 +48,8 @@ typedef struct s_keys
 	int	a;
 	int	s;
 	int	d;
+	int	q;
+	int	e;
 }	t_keys;
 
 typedef struct s_game
@@ -70,14 +60,24 @@ typedef struct s_game
 	unsigned long	start_time;
 	unsigned long	last_frame;
 	mlx_image_t		*window;
+	mlx_texture_t	*wall;
 	t_player		player;
 	t_keys			keys;
 }	t_game;
 
-//	utils.c
-unsigned long	get_time(void);
+
+//	inputs.c
+void			key_handler(mlx_key_data_t k, void *param);
+
+//	movements.c
+void			movements_handler(t_game *game);
 
 //	cub3d_minimap.c
 void			cub3d_draw_minimap(t_game *game);
+
+//	utils.c
+unsigned long	get_time(void);
+float			adjust_angle(float angle);
+t_point			point_add(t_point a, t_point b);
 
 #endif

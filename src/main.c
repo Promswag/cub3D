@@ -6,24 +6,16 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:00:58 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/02 16:57:34 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/03 17:50:11 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include <stdio.h>
 
-float	dist(t_point a, t_point b, float angle)
+float	dist(t_point a, t_point b)
 {
 	return (sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y)));
-}
-
-void	adjust_angle(float *angle)
-{
-	if (*angle < 0)
-		*angle += 2 * PI;
-	if (*angle > 2 * PI)
-		*angle -= 2 * PI;
 }
 
 void	map_length(t_game *game)
@@ -37,35 +29,49 @@ void	map_length(t_game *game)
 }
 
 char	*g_map[] = {
-	(char []){'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', \
-	'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', \
-	'1', '1', '1', '1', '1', '1', '1', '1', '1', 0},
+	(char []){'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 0},
 	(char []){'1', '0', '1', '0', '0', '0', '0', '1', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '0', '1', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '1', 0, 0},
 	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '1', '1', '1', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '1', '1', '1', '1', '1', '1', '1', '1', 0},
-	(char []){'1', 0},
-	(char []){'1', 0},
-	(char []){'1', 0},
-	(char []){'1', 0},
-	(char []){'1', 0},
+	(char []){'1', '0', '0', '0', '0', '1', '1', '1', '1', 0, 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '1', 0, 0},
+	(char []){'1', '1', '1', '1', '1', '1', '1', '1', '1', 0, 0},
 	0
 };
 
-void	prepare_image(t_game *game, int x, float distance, float angle)
+void	load_textures(t_game *game)
+{
+	game->wall = mlx_load_png("./img/wall_01.png");
+	printf("%p\n", game->wall);
+	printf("%p\n", game->wall->pixels);
+	printf("%d\n", game->wall->height);
+	printf("%d\n", game->wall->width);
+	printf("%d\n", game->wall->bytes_per_pixel);
+	
+}
+
+unsigned int	get_color(int x, int y, mlx_texture_t *texture, int height)
+{
+	float	ratio;
+
+	ratio = height / texture->height;
+	return (texture->pixels[(int)((y / ratio + x) * 4)] << 24\
+		| texture->pixels[(int)((y / ratio + x) * 4) + 1] << 16 \
+		| texture->pixels[(int)((y / ratio + x) * 4) + 2] << 8\
+		| texture->pixels[(int)((y / ratio + x) * 4) + 3]);
+}
+
+void	prepare_image(t_game *game, int x, float distance, float angle, int color, t_point coord)
 {
 	float	height;
 	float	fish_angle;
 	int		i;
 	int		offset;
 
-	fish_angle = game->player.angle - angle;
-	adjust_angle(&fish_angle);
+	fish_angle = adjust_angle(game->player.angle - angle);
 	distance *= cos(fish_angle);
 	height = (TILE_SIZE * DISPLAY_HEIGHT * DISPLAY_WIDTH / DISPLAY_HEIGHT * 60 / FOV) / distance;
 	if (height > DISPLAY_HEIGHT)
@@ -73,7 +79,36 @@ void	prepare_image(t_game *game, int x, float distance, float angle)
 	offset = (DISPLAY_HEIGHT - height) / 2;
 	i = 0;
 	while (i < height)
-		mlx_put_pixel(game->window, x, offset + i++, 0xFFFFFFFF);
+	{
+		if (color == 0)
+		{
+			if (game->wall)
+			{
+				mlx_put_pixel(game->window, x, offset + i, get_color(coord.x, i, game->wall, height));
+				i++;
+			}
+			else
+				mlx_put_pixel(game->window, x, offset + i++, color);
+		}
+		else
+			mlx_put_pixel(game->window, x, offset + i++, color);
+	}
+}
+
+void	draw_section(t_game *game, t_point start, t_point end, int color)
+{
+	int	x;
+
+	while (start.y < end.y)
+	{
+		x = start.x;
+		while (x < end.x)
+		{
+			mlx_put_pixel(game->window, x, start.y, color);
+			x++;
+		}
+		start.y++;
+	}
 }
 
 void	cub3d_raycaster(t_game *game)
@@ -97,12 +132,14 @@ void	cub3d_raycaster(t_game *game)
 	float	hy;
 	float	vx;
 	float	vy;
+	int		color;
+	int		colorh;
+	int		colorv;
 
-	ra = game->player.angle - PI * FOV / 360;
-	adjust_angle(&ra);
+	ra = adjust_angle(game->player.angle - PI * FOV / 360);
 	step = PI * FOV / 180 / DISPLAY_WIDTH;
 	r = -1;
-	printf("%f\n", step);
+	// printf("%f\n", step);
 	while (++r < DISPLAY_WIDTH)
 	{
 		hit = 0;
@@ -118,6 +155,7 @@ void	cub3d_raycaster(t_game *game)
 			rx = (game->player.coord.y - ry) * atan + game->player.coord.x;
 			yo = -TILE_SIZE;
 			xo = -yo * atan;
+			colorh = 0;
 		}
 		if (ra < PI)
 		{
@@ -125,13 +163,14 @@ void	cub3d_raycaster(t_game *game)
 			rx = (game->player.coord.y - ry) * atan + game->player.coord.x;
 			yo = TILE_SIZE;
 			xo = -yo * atan;
+			colorh = 0x00FF00FF;
 		}
-		if (ra == 0 || ra == PI)
-		{
-			ry = game->player.coord.y;
-			rx = game->player.coord.x;
-			wall = 8;
-		}
+		// if (ra == 0 || ra == PI)
+		// {
+		// 	ry = game->player.coord.y;
+		// 	rx = game->player.coord.x;
+		// 	wall = 8;
+		// }
 		while (wall++ < 25)
 		{
 			mx = (int)rx >> 6;
@@ -143,7 +182,7 @@ void	cub3d_raycaster(t_game *game)
 				wall = 25;
 				hx = rx;
 				hy = ry;
-				disth = dist(game->player.coord, (t_point){rx, ry}, game->player.angle);
+				disth = dist(game->player.coord, (t_point){rx, ry});
 				hit = 1;
 			}
 			else
@@ -164,6 +203,7 @@ void	cub3d_raycaster(t_game *game)
 			ry = (game->player.coord.x - rx) * atan + game->player.coord.y;
 			xo = -TILE_SIZE;
 			yo = -(xo * atan);
+			colorv = 0x0000FFFF;
 		}
 		if (ra < PI / 2 || ra > 3 * PI / 2)
 		{
@@ -171,13 +211,14 @@ void	cub3d_raycaster(t_game *game)
 			ry = (game->player.coord.x - rx) * atan + game->player.coord.y;
 			xo = TILE_SIZE;
 			yo = -(xo * atan);
+			colorv = 0xFFFF00FF;
 		}
-		if (ra == PI / 2 || ra == 3 * PI / 2)
-		{
-			ry = game->player.coord.y;
-			rx = game->player.coord.x;
-			wall = 8;
-		}
+		// if (ra == PI / 2 || ra == 3 * PI / 2)
+		// {
+		// 	ry = game->player.coord.y;
+		// 	rx = game->player.coord.x;
+		// 	wall = 8;
+		// }
 		while (wall++ < 25)
 		{
 			mx = (int)rx >> 6;
@@ -189,7 +230,7 @@ void	cub3d_raycaster(t_game *game)
 				wall = 25;
 				vx = rx;
 				vy = ry;
-				distv = dist(game->player.coord, (t_point){rx, ry}, game->player.angle);
+				distv = dist(game->player.coord, (t_point){rx, ry});
 				hit = 1;
 			}
 			else
@@ -203,18 +244,20 @@ void	cub3d_raycaster(t_game *game)
 			rx = vx;
 			ry = vy;
 			distt = distv;
+			color = colorv;
 		}
 		if (disth < distv)
 		{
 			rx = hx;
 			ry = hy;
 			distt = disth;
+			color = colorh;
 		}
 		if (hit && rx >= 0 && rx < DISPLAY_WIDTH && ry >= 0 && ry < DISPLAY_HEIGHT)
 			mlx_put_pixel(game->window, rx, ry, 0x00FF00FF);
-		ra += step;
-		prepare_image(game, r, distt, ra);
-		adjust_angle(&ra);
+		if (hit)
+			prepare_image(game, r, distt, ra, color, (t_point){(int)rx % TILE_SIZE, (int)ry % TILE_SIZE});
+		ra = adjust_angle(ra + step);
 	}
 }
 
@@ -248,36 +291,10 @@ void	draw(t_game *game)
 		if (y >= 0 && y < DISPLAY_HEIGHT && x >= 0 && x < DISPLAY_WIDTH)
 			mlx_put_pixel(game->window, x, y, 0xFFFFFFFF);
 	}
+	draw_section(game, (t_point){0, 0}, (t_point){DISPLAY_WIDTH, DISPLAY_HEIGHT / 2}, 0x7F7F7FFF);
+	draw_section(game, (t_point){0, DISPLAY_HEIGHT / 2}, (t_point){DISPLAY_WIDTH, DISPLAY_HEIGHT}, 0x1C2E50FF);
 	cub3d_raycaster(game);
 	mlx_image_to_window(game->mlx, game->window, 0, 0);
-}
-
-void	update_game(t_game *game)
-{
-	if (game->keys.w)
-	{
-		game->player.coord.x += game->player.delta.x;
-		game->player.coord.y += game->player.delta.y;
-	}
-	if (game->keys.s)
-	{
-		game->player.coord.x -= game->player.delta.x;
-		game->player.coord.y -= game->player.delta.y;
-	}
-	if (game->keys.a)
-	{
-		game->player.angle -= 2 * PI / 72;
-		adjust_angle(&game->player.angle);
-		game->player.delta.x = cos(game->player.angle) * 5;
-		game->player.delta.y = sin(game->player.angle) * 5;
-	}
-	if (game->keys.d)
-	{
-		game->player.angle += 2 * PI / 72;
-		adjust_angle(&game->player.angle);
-		game->player.delta.x = cos(game->player.angle) * 5;
-		game->player.delta.y = sin(game->player.angle) * 5;
-	}
 }
 
 void	draw_60fps(void *param)
@@ -292,54 +309,27 @@ void	draw_60fps(void *param)
 	{
 		game->last_frame = time;
 		game->fps++;
-		update_game(game);
+		// update_game(game);
+		movements_handler(game);
 		draw(game);
 	}
 }
 
-void	key_handler(mlx_key_data_t k, void *param)
-{
-	t_game	*game;
-
-	game = (t_game *)param;
-	if (k.key == MLX_KEY_ESCAPE)
-		mlx_close_window(game->mlx);
-	if ((k.key == W || k.key == UP) && k.action == MLX_PRESS)
-		game->keys.w = 1;
-	if ((k.key == W || k.key == UP) && k.action == MLX_RELEASE)
-		game->keys.w = 0;
-	if ((k.key == S || k.key == DO) && k.action == MLX_PRESS)
-		game->keys.s = 1;
-	if ((k.key == S || k.key == DO) && k.action == MLX_RELEASE)
-		game->keys.s = 0;
-	if ((k.key == A || k.key == LE) && k.action == MLX_PRESS)
-		game->keys.a = 1;
-	if ((k.key == A || k.key == LE) && k.action == MLX_RELEASE)
-		game->keys.a = 0;
-	if ((k.key == D || k.key == RI) && k.action == MLX_PRESS)
-		game->keys.d = 1;
-	if ((k.key == D || k.key == RI) && k.action == MLX_RELEASE)
-		game->keys.d = 0;
-}
-
 t_game	game_init(void)
 {
-	t_game	game;
-
-	game = (t_game){
+	return ((t_game){
 		.mlx = 0,
-		.map = {0},
+		.map = (t_map){0, 0},
 		.fps = 0,
 		.start_time = 0,
 		.last_frame = 0,
 		.window = 0,
+		.wall = 0,
 		.player = (t_player){\
 			.angle = PI / 2, \
-			.coord = (t_point){.x = 50, .y = 50}, \
-			.delta = (t_point){.x = cos(PI / 2) * 5, .y = sin(PI / 2) * 5}},
-		.keys = (t_keys){.w = 0, .a = 0, .s = 0, .d = 0}
-	};
-	return (game);
+			.coord = (t_point){.x = 92, .y = 92}},
+		.keys = (t_keys){.w = 0, .a = 0, .s = 0, .d = 0, .q = 0, .e = 0}
+	});
 }
 
 int	main(int argc, char **argv)
@@ -356,6 +346,7 @@ int	main(int argc, char **argv)
 	game.window = mlx_new_image(game.mlx, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	if (!game.window)
 		;
+	load_textures(&game);
 	mlx_key_hook(game.mlx, &key_handler, &game);
 	mlx_loop_hook(game.mlx, &draw_60fps, &game);
 	game.start_time = get_time();
