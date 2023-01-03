@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:22:05 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/02 16:54:27 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 # include <math.h>
 
 # define TILE_SIZE 64
-# define DISPLAY_WIDTH 1600
-# define DISPLAY_HEIGHT 900
+# define DISPLAY_WIDTH 1500
+# define DISPLAY_HEIGHT 1100
 # define PI 3.14159265359
+# define FOV 60
 
 typedef enum e_keys {
 	W = MLX_KEY_W,
@@ -43,6 +44,7 @@ typedef struct s_point
 typedef struct s_map
 {
 	char	**map;
+	int		row;
 }	t_map;
 
 typedef struct s_player
@@ -72,6 +74,10 @@ typedef struct s_game
 	t_keys			keys;
 }	t_game;
 
+//	utils.c
 unsigned long	get_time(void);
+
+//	cub3d_minimap.c
+void			cub3d_draw_minimap(t_game *game);
 
 #endif
