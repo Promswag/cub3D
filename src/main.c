@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:00:58 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/03 17:50:11 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:19:58 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,73 +25,78 @@ void	map_length(t_game *game)
 	i = 0;
 	while (game->map.map && game->map.map[i])
 		i++;
-	game->map.row = i;
+	game->map.row = 13;
+	game->map.col = 13;
 }
 
 char	*g_map[] = {
-	(char []){'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 0},
-	(char []){'1', '0', '1', '0', '0', '0', '0', '1', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '0', '1', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '1', 0, 0},
-	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '1', '1', '1', '1', 0, 0},
-	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '1', 0, 0},
-	(char []){'1', '1', '1', '1', '1', '1', '1', '1', '1', 0, 0},
+	(char []){'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '1', '0', '0', '1', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 0},
 	0
 };
 
 void	load_textures(t_game *game)
 {
-	game->wall = mlx_load_png("./img/wall_01.png");
-	printf("%p\n", game->wall);
-	printf("%p\n", game->wall->pixels);
-	printf("%d\n", game->wall->height);
-	printf("%d\n", game->wall->width);
-	printf("%d\n", game->wall->bytes_per_pixel);
-	
+	game->textures = malloc(sizeof(mlx_texture_t *) * 4);
+	if (game->textures)
+	{
+		game->textures[E] = mlx_load_png("/Users/gbaumgar/Cursus/cub3D/img/wall_03.png");
+		game->textures[N] = mlx_load_png("/Users/gbaumgar/Cursus/cub3D/img/wall_03.png");
+		game->textures[W] = mlx_load_png("/Users/gbaumgar/Cursus/cub3D/img/wall_03.png");
+		game->textures[S] = mlx_load_png("/Users/gbaumgar/Cursus/cub3D/img/wall_03.png");	
+	}
 }
 
 unsigned int	get_color(int x, int y, mlx_texture_t *texture, int height)
 {
-	float	ratio;
-
-	ratio = height / texture->height;
-	return (texture->pixels[(int)((y / ratio + x) * 4)] << 24\
-		| texture->pixels[(int)((y / ratio + x) * 4) + 1] << 16 \
-		| texture->pixels[(int)((y / ratio + x) * 4) + 2] << 8\
-		| texture->pixels[(int)((y / ratio + x) * 4) + 3]);
+	uint8_t *pixels = texture->pixels;
+	int	index = (y * texture->width + x) * texture->bytes_per_pixel;
+	return (pixels[index] << 24 \
+		| pixels[index + 1] << 16 \
+		| pixels[index + 2] << 8\
+		| pixels[index + 3]);
+	// return (((unsigned int *)(texture->pixels))[index]);
 }
 
-void	prepare_image(t_game *game, int x, float distance, float angle, int color, t_point coord)
+void	prepare_image(t_game *game, int x, float distance, float angle, float rx, int nesw)
 {
-	float	height;
+	int		height;
 	float	fish_angle;
 	int		i;
 	int		offset;
 
 	fish_angle = adjust_angle(game->player.angle - angle);
 	distance *= cos(fish_angle);
-	height = (TILE_SIZE * DISPLAY_HEIGHT * DISPLAY_WIDTH / DISPLAY_HEIGHT * 60 / FOV) / distance;
+	height = (1.0 * TILE_SIZE * DISPLAY_WIDTH * 60 / FOV) / distance;
+	float	ratio = 1.0 * game->textures[nesw]->height / height;
+	int	ty_off = 0;
 	if (height > DISPLAY_HEIGHT)
-		height = DISPLAY_HEIGHT;
-	offset = (DISPLAY_HEIGHT - height) / 2;
-	i = 0;
-	while (i < height)
 	{
-		if (color == 0)
-		{
-			if (game->wall)
-			{
-				mlx_put_pixel(game->window, x, offset + i, get_color(coord.x, i, game->wall, height));
-				i++;
-			}
-			else
-				mlx_put_pixel(game->window, x, offset + i++, color);
-		}
-		else
-			mlx_put_pixel(game->window, x, offset + i++, color);
+		ty_off = (height - DISPLAY_HEIGHT) >> 1;
+		height = DISPLAY_HEIGHT;
+	}
+	offset = (DISPLAY_HEIGHT - height) >> 1;
+
+	i = -1;
+	float ty = ty_off*ratio;
+	float ratio2;
+
+	ratio2 = 1.0 * game->textures[nesw]->width / TILE_SIZE;
+	while (++i < height)
+	{
+		mlx_put_pixel(game->window, x, offset + i, get_color((int)(rx * ratio2) % game->textures[nesw]->width, ty, game->textures[nesw], height));
+		ty += ratio;
 	}
 }
 
@@ -155,7 +160,7 @@ void	cub3d_raycaster(t_game *game)
 			rx = (game->player.coord.y - ry) * atan + game->player.coord.x;
 			yo = -TILE_SIZE;
 			xo = -yo * atan;
-			colorh = 0;
+			colorh = N;
 		}
 		if (ra < PI)
 		{
@@ -163,7 +168,7 @@ void	cub3d_raycaster(t_game *game)
 			rx = (game->player.coord.y - ry) * atan + game->player.coord.x;
 			yo = TILE_SIZE;
 			xo = -yo * atan;
-			colorh = 0x00FF00FF;
+			colorh = S;
 		}
 		// if (ra == 0 || ra == PI)
 		// {
@@ -203,7 +208,7 @@ void	cub3d_raycaster(t_game *game)
 			ry = (game->player.coord.x - rx) * atan + game->player.coord.y;
 			xo = -TILE_SIZE;
 			yo = -(xo * atan);
-			colorv = 0x0000FFFF;
+			colorv = E;
 		}
 		if (ra < PI / 2 || ra > 3 * PI / 2)
 		{
@@ -211,7 +216,7 @@ void	cub3d_raycaster(t_game *game)
 			ry = (game->player.coord.x - rx) * atan + game->player.coord.y;
 			xo = TILE_SIZE;
 			yo = -(xo * atan);
-			colorv = 0xFFFF00FF;
+			colorv = W;
 		}
 		// if (ra == PI / 2 || ra == 3 * PI / 2)
 		// {
@@ -224,7 +229,7 @@ void	cub3d_raycaster(t_game *game)
 			mx = (int)rx >> 6;
 			my = (int)ry >> 6;
 			if (my >= 0 && my < game->map.row \
-				&& mx >= 0 && mx < (int)ft_strlen(game->map.map[my]) \
+				&& mx >= 0 && mx < game->map.col /*(int)ft_strlen(game->map.map[my]*/ \
 				&& game->map.map[my][mx] == '1')
 			{
 				wall = 25;
@@ -245,6 +250,10 @@ void	cub3d_raycaster(t_game *game)
 			ry = vy;
 			distt = distv;
 			color = colorv;
+			if (color == E)
+				ry = TILE_SIZE - 1 - ry;
+			if (hit)
+				prepare_image(game, r, distt, ra, ry, color);
 		}
 		if (disth < distv)
 		{
@@ -252,11 +261,13 @@ void	cub3d_raycaster(t_game *game)
 			ry = hy;
 			distt = disth;
 			color = colorh;
+			if (color == S)
+				rx = TILE_SIZE - 1 - rx;
+			if (hit)
+				prepare_image(game, r, distt, ra, rx, color);
 		}
-		if (hit && rx >= 0 && rx < DISPLAY_WIDTH && ry >= 0 && ry < DISPLAY_HEIGHT)
-			mlx_put_pixel(game->window, rx, ry, 0x00FF00FF);
-		if (hit)
-			prepare_image(game, r, distt, ra, color, (t_point){(int)rx % TILE_SIZE, (int)ry % TILE_SIZE});
+		// if (hit && rx >= 0 && rx < DISPLAY_WIDTH && ry >= 0 && ry < DISPLAY_HEIGHT)
+		// 	mlx_put_pixel(game->window, rx, ry, 0x00FF00FF);
 		ra = adjust_angle(ra + step);
 	}
 }
@@ -270,37 +281,37 @@ void	draw(t_game *game)
 
 	mlx_delete_image(game->mlx, game->window);
 	game->window = mlx_new_image(game->mlx, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-	cub3d_draw_minimap(game);
 	x = game->player.coord.x - 4;
 	y = game->player.coord.y - 4;
 
 	i = -1;
-	while (++i < 9)
-	{
-		j = -1;
-		while (++j < 9)
-			if (y + i >= 0 && y + i < DISPLAY_HEIGHT \
-				&& x + j >= 0 && x + j < DISPLAY_WIDTH)
-				mlx_put_pixel(game->window, x + j, y + i, 0xFFFFFFFF);
-	}
-	i = -1;
-	while (++i < 15)
-	{
-		x = game->player.coord.x + cos(game->player.angle) * i;
-		y = game->player.coord.y + sin(game->player.angle) * i;
-		if (y >= 0 && y < DISPLAY_HEIGHT && x >= 0 && x < DISPLAY_WIDTH)
-			mlx_put_pixel(game->window, x, y, 0xFFFFFFFF);
-	}
-	draw_section(game, (t_point){0, 0}, (t_point){DISPLAY_WIDTH, DISPLAY_HEIGHT / 2}, 0x7F7F7FFF);
-	draw_section(game, (t_point){0, DISPLAY_HEIGHT / 2}, (t_point){DISPLAY_WIDTH, DISPLAY_HEIGHT}, 0x1C2E50FF);
+	draw_section(game, (t_point){0, 0}, (t_point){DISPLAY_WIDTH, DISPLAY_HEIGHT >> 1}, 0x7F7F7FFF);
+	draw_section(game, (t_point){0, DISPLAY_HEIGHT >> 1}, (t_point){DISPLAY_WIDTH, DISPLAY_HEIGHT}, 0x1C2E50FF);
 	cub3d_raycaster(game);
+	// cub3d_draw_minimap(game);
+	// while (++i < 9)
+	// {
+	// 	j = -1;
+	// 	while (++j < 9)
+	// 		if (y + i >= 0 && y + i < DISPLAY_HEIGHT \
+	// 			&& x + j >= 0 && x + j < DISPLAY_WIDTH)
+	// 			mlx_put_pixel(game->window, x + j, y + i, 0xFFFFFFFF);
+	// }
+	// i = -1;
+	// while (++i < 15)
+	// {
+	// 	x = game->player.coord.x + cos(game->player.angle) * i;
+	// 	y = game->player.coord.y + sin(game->player.angle) * i;
+	// 	if (y >= 0 && y < DISPLAY_HEIGHT && x >= 0 && x < DISPLAY_WIDTH)
+	// 		mlx_put_pixel(game->window, x, y, 0xFFFFFFFF);
+	// }
 	mlx_image_to_window(game->mlx, game->window, 0, 0);
 }
 
 void	draw_60fps(void *param)
 {
 	t_game			*game;
-	unsigned long	time;
+	unsigned long	time;	
 
 	game = (t_game *)param;
 	time = get_time();
@@ -309,9 +320,16 @@ void	draw_60fps(void *param)
 	{
 		game->last_frame = time;
 		game->fps++;
+		if (game->fps == 60)
+		{
+			game->fps = 1;
+			game->start_time = time;
+		}
 		// update_game(game);
 		movements_handler(game);
 		draw(game);
+		// printf("%ld, %ld\n", game->fps, time - game->start_time);
+		printf("\033[A%f\n", 1.0 * game->fps / ((time - game->start_time) / 1e6));
 	}
 }
 
@@ -319,16 +337,14 @@ t_game	game_init(void)
 {
 	return ((t_game){
 		.mlx = 0,
-		.map = (t_map){0, 0},
+		.map = (t_map){0, 0, 0},
 		.fps = 0,
 		.start_time = 0,
 		.last_frame = 0,
 		.window = 0,
-		.wall = 0,
-		.player = (t_player){\
-			.angle = PI / 2, \
-			.coord = (t_point){.x = 92, .y = 92}},
-		.keys = (t_keys){.w = 0, .a = 0, .s = 0, .d = 0, .q = 0, .e = 0}
+		.textures = 0,
+		.player = (t_player){-(PI / 2), (t_point){0, 0}},
+		.keys = (t_keys){0, 0, 0, 0, 0, 0}
 	});
 }
 
@@ -336,7 +352,10 @@ int	main(int argc, char **argv)
 {
 	t_game	game;
 
+	printf("\n\n\n");
 	game = game_init();
+	game.player.angle *= S;
+	game.player.coord = (t_point){(6 + 0.5) * TILE_SIZE, (6 + 0.5) * TILE_SIZE};
 
 	(void)argc;
 	(void)argv;

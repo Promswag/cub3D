@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/03 17:01:18 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/04 14:12:55 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,16 @@
 
 # define TILE_SIZE 64
 # define DISPLAY_WIDTH 1500
-# define DISPLAY_HEIGHT 1100
+# define DISPLAY_HEIGHT 1000
 # define PI 3.14159265359
 # define FOV 60
+
+typedef enum e_direction {
+	E = 0,
+	N,
+	W,
+	S
+}	t_enum_direction;
 
 typedef struct s_point
 {
@@ -34,6 +41,7 @@ typedef struct s_map
 {
 	char	**map;
 	int		row;
+	int		col;
 }	t_map;
 
 typedef struct s_player
@@ -60,7 +68,7 @@ typedef struct s_game
 	unsigned long	start_time;
 	unsigned long	last_frame;
 	mlx_image_t		*window;
-	mlx_texture_t	*wall;
+	mlx_texture_t	**textures;
 	t_player		player;
 	t_keys			keys;
 }	t_game;

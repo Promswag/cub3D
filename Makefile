@@ -19,9 +19,9 @@ INCLUDE			= -I${INC_DIR}
 LIBFT			= -L libft -lft
 
 CC				= gcc
-CFLAGS			= -g -Wall -Wextra
+CFLAGS			= -g -Wall -Wextra -O0
 # CFLAGS			+= -Werror
-CFLAGS			+= -fsanitize=address
+# CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 

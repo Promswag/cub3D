@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:43:47 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/03 15:38:44 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/04 12:28:52 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,15 @@ t_point	move_point(t_game *game, float angle, float step)
 
 	x = game->player.coord.x + cos(game->player.angle + angle) * step;
 	y = game->player.coord.y + sin(game->player.angle + angle) * step;
-	if ((int)x / TILE_SIZE >= 0 \
-		&& (int)x / TILE_SIZE < \
-		(int)ft_strlen(game->map.map[(int)game->player.coord.y / TILE_SIZE]) \
+	if (!((int)x / TILE_SIZE >= 0 \
+		&& (int)x / TILE_SIZE < game->map.col \
 		&& game->map.map[\
-		(int)game->player.coord.y / TILE_SIZE][(int)x / TILE_SIZE] != '1')
-		;
-	else
+		(int)game->player.coord.y / TILE_SIZE][(int)x / TILE_SIZE] != '1'))
 		x = game->player.coord.x;
-	if ((int)y / TILE_SIZE >= 0 \
+	if (!((int)y / TILE_SIZE >= 0 \
 		&& (int)y / TILE_SIZE < game->map.row \
 		&& game->map.map[\
-		(int)y / TILE_SIZE][(int)game->player.coord.x / TILE_SIZE] != '1')
-		;
-	else
+		(int)y / TILE_SIZE][(int)game->player.coord.x / TILE_SIZE] != '1'))
 		y = game->player.coord.y;
 	return ((t_point){x, y});
 }
