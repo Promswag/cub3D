@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:11:37 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/03 12:00:24 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:46:14 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	key_handler(mlx_key_data_t k, void *param)
 			game->keys.w ^= 1;
 		if (k.key == MLX_KEY_S || k.key == MLX_KEY_DOWN)
 			game->keys.s ^= 1;
-		if (k.key == MLX_KEY_A || k.key == MLX_KEY_LEFT)
+		if (k.key == MLX_KEY_A)
 			game->keys.a ^= 1;
-		if (k.key == MLX_KEY_D || k.key == MLX_KEY_RIGHT)
+		if (k.key == MLX_KEY_D)
 			game->keys.d ^= 1;
-		if (k.key == MLX_KEY_Q)
+		if (k.key == MLX_KEY_Q || k.key == MLX_KEY_LEFT)
 			game->keys.q ^= 1;
-		if (k.key == MLX_KEY_E)
+		if (k.key == MLX_KEY_E || k.key == MLX_KEY_RIGHT)
 			game->keys.e ^= 1;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:43:47 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/04 12:28:52 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:46:38 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	movements_handler(t_game *game)
 	if (game->keys.s)
 		game->player.coord = move_point(game, PI, 5);
 	if (game->keys.a)
-		game->player.angle = adjust_angle(game->player.angle - 2 * PI / 72);
-	if (game->keys.d)
-		game->player.angle = adjust_angle(game->player.angle + 2 * PI / 72);
-	if (game->keys.q)
 		game->player.coord = move_point(game, -(PI / 2), 5);
-	if (game->keys.e)
+	if (game->keys.d)
 		game->player.coord = move_point(game, PI / 2, 5);
+	if (game->keys.q)
+		game->player.angle = adjust_angle(game->player.angle - 2 * PI / 72);
+	if (game->keys.e)
+		game->player.angle = adjust_angle(game->player.angle + 2 * PI / 72);
 }

@@ -7,9 +7,10 @@ SRC				= 	main.c \
 					get_next_line.c \
 					get_next_line_utils.c \
 					utils.c \
-					cub3d_minimap.c \
 					inputs.c \
 					movements.c \
+					textures.c \
+					raycaster.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
@@ -21,7 +22,7 @@ LIBFT			= -L libft -lft
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra -O0
 # CFLAGS			+= -Werror
-# CFLAGS			+= -fsanitize=address
+CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 
