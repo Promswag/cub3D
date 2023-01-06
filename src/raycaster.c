@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:14:31 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/05 17:41:33 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:33:48 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	raycaster(t_game *game)
 		ray = raycaster_check(game, \
 			raycaster_horizontal(game, ra), \
 			raycaster_vertical(game, ra));
-		prepare_image(game, pixel, ra, ray);
+		draw_stripe(game, pixel, ra, ray);
 		ra = adjust_angle(ra + step);
 	}
 }

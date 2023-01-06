@@ -1,65 +1,85 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_minimap.c                                    :+:      :+:    :+:   */
+/*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:43:24 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/02 11:15:59 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:04:56 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include <stdio.h>
 
-void	cub3d_draw_bloc(t_game *game, int y, int x)
+void	draw_blocs(t_game *game)
 {
-	int	i;
-	int	j;
-	int	posy;
-	int	posx;
+	int		x;
+	int		y;
+	int		i;
+	int		j;
 
-	i = 0;
-	while (++i < TILE_SIZE - 1)
+	i = -1;
+	while (++i < 320)
 	{
-		j = 0;
-		while (++j < TILE_SIZE - 1)
+		y = (game->player.coord.y - 320 + i * 2) / TILE_SIZE;
+		j = -1;
+		while (++j < 320)
 		{
-			posy = y * TILE_SIZE + i;
-			posx = x * TILE_SIZE + j;
-			if (posy >= 0 && posy < DISPLAY_HEIGHT
-				&& posx >= 0 && posx < DISPLAY_WIDTH)
+			x = (game->player.coord.x - 320 + j * 2) / TILE_SIZE;
+			if (x >= 0 && x < game->map.col && y >= 0 && y < game->map.row)
 			{
-				if (game->map.map[y][x] == '1')	
-					mlx_put_pixel(game->window, posx, posy, 0xFFFFFFFF);
+				if (game->map.map[y][x] == '0')
+					mlx_put_pixel(game->window, j + 2, i + 2, 0xB0B0B0FF);
+				else
+					mlx_put_pixel(game->window, j + 2, i + 2, 0x777777FF);
 			}
+			else
+				mlx_put_pixel(game->window, j + 2, i + 2, 0x333333FF);
 		}
 	}
 }
 
-void	cub3d_draw_minimap(t_game *game)
+void	draw_boundaries(t_game *game)
 {
-	t_point		player_index;
-	// mlx_image_t	*img;
-	int			i;
-	int			j;
+	int	x;
+	int	y;
 
-	player_index.x = game->player.coord.x / 64 - 4;
-	player_index.y = game->player.coord.y / 64 - 4;
-	// img = mlx_new_image(game->mlx, 10, 10);
+	y = -1;
+	while (++y < 324)
+	{
+		x = -1;
+		while (++x < 324)
+		{
+			if (y == 0 || y == 1 || y == 323 || y == 322)
+				mlx_put_pixel(game->window, x, y, 0x000000FF);
+			if (x == 0 || x == 1 || x == 323 || x == 322)
+				mlx_put_pixel(game->window, x, y, 0x000000FF);
+		}
+	}
+}
+
+void	draw_minimap(t_game *game)
+{
+	int		i;
+	int		j;
+	int		x;
+	int		y;
+
+	draw_boundaries(game);
+	draw_blocs(game);
+	x = 162;
+	y = 162;
 	i = -1;
-	while (game->map.map[++i])
+	while (++i < 10)
 	{
 		j = -1;
-		while (game->map.map[i][++j])
-			cub3d_draw_bloc(game, i, j);
+		while (++j < 10)
+			mlx_put_pixel(game->window, x + j - 5, y + i - 5, 0xFFFFFFFF);
 	}
-	// while (++i < 9)
-	// {
-	// 	j = -1;
-	// 	while (++j < 9)
-	// 	{
-	// 		mlx_image_to_window(game->mlx, img, 10 * j, 10 * i);
-	// 	}
-	// }
+	i = -1;
+	while (++i < 15)
+		mlx_put_pixel(game->window, x + cos(game->player.angle) * i, \
+			y + sin(game->player.angle) * i, 0xFFFFFFFF);
 }

@@ -11,6 +11,8 @@ SRC				= 	main.c \
 					movements.c \
 					textures.c \
 					raycaster.c \
+					draw.c \
+					minimap.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
@@ -20,7 +22,7 @@ INCLUDE			= -I${INC_DIR}
 LIBFT			= -L libft -lft
 
 CC				= gcc
-CFLAGS			= -g -Wall -Wextra -O0
+CFLAGS			= -g -Wall -Wextra 
 # CFLAGS			+= -Werror
 CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
