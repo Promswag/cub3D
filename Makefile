@@ -20,7 +20,7 @@ OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
 INCLUDE			= -I${INC_DIR}
 MLX				= -L MLX42 -lmlx42
 LIBFT			= -L libft -lft
-GLFW			= -L/Users/gbaumgar/goinfre/homebrew/Cellar/glfw/3.3.8/lib -lglfw
+GLFW			= -L/Users/${USER}/goinfre/homebrew/Cellar/glfw/3.3.8/lib -lglfw
 
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra 
