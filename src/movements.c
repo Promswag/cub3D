@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:43:47 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/06 15:18:08 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:09:53 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,21 @@ t_point	move_point(t_game *game, float angle, float step)
 	p.y = game->player.coord.y + sin(game->player.angle + angle) * step;
 	x = p.x / TILE_SIZE;
 	y = p.y / TILE_SIZE;
-	if (x >= 0 && x < game->map.col && y >= 0 && y < game->map.row && \
-		game->map.map[y][x] == '1')
+	if (x >= 0 && x < game->map.col && y >= 0 && y < game->map.row)
+	{
+		if (game->map.map[y][x] == '1' || \
+			(game->map.map[\
+				(int)(game->player.coord.y / TILE_SIZE)][x] == '1' \
+			&& game->map.map[y][\
+				(int)(game->player.coord.x / TILE_SIZE)] == '1'))
 			p = game->player.coord;
+		if (game->map.map[y][x] == 'D' || \
+			(game->map.map[\
+				(int)(game->player.coord.y / TILE_SIZE)][x] == 'D' \
+			&& game->map.map[y][\
+				(int)(game->player.coord.x / TILE_SIZE)] == 'D'))
+			p = game->player.coord;
+	}
 	return (p);
 }
 
@@ -64,5 +76,6 @@ void	movements_handler(t_game *game)
 		game->player.angle = adjust_angle(game->player.angle - 2 * PI / 72);
 	if (game->keys.e)
 		game->player.angle = adjust_angle(game->player.angle + 2 * PI / 72);
-	mouse_handler(game);
+	if (game->bonus)
+		mouse_handler(game);
 }

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:53:33 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/05 15:10:09 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/09 12:09:42 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ int	load_textures(t_game *game, char **path)
 	int				i;
 	mlx_texture_t	*texture;
 
-	game->textures = malloc(sizeof(t_texture *) * 4);
+	game->textures = malloc(sizeof(t_texture *) * 5);
 	if (!game->textures)
 		return (1);
 	i = -1;
-	while (++i < 4)
+	while (++i < 5)
 	{
 		game->textures[i] = malloc(sizeof(t_texture));
 		if (!game->textures[i])

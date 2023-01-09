@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/06 15:49:30 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/09 14:21:00 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "get_next_line.h"
 # include <math.h>
 # include "cub3d_parsing.h"
+# include <stdio.h>
 
 # define TILE_SIZE 64
 # define DISPLAY_WIDTH 1600
@@ -53,6 +54,13 @@ typedef struct s_player
 	t_point	coord;
 }	t_player;
 
+typedef struct s_door
+{
+	t_point			coord;
+	unsigned int	frame;
+	unsigned int	status;
+}	t_door;
+
 typedef struct s_keys
 {
 	int	w;
@@ -78,6 +86,7 @@ typedef struct s_game
 	mlx_image_t		*window;
 	t_texture		**textures;
 	t_player		player;
+	t_door			door;
 	t_keys			keys;
 }	t_game;
 
@@ -113,13 +122,19 @@ void			draw_minimap(t_game *game);
 //	draw.c
 void			draw(void *param);
 void			draw_stripe(t_game *game, int x, float angle, t_ray ray);
+void			draw_stripe_door(t_game *game, int x, float angle, t_ray ray);
 
 //	raycaster.c
 void			raycaster(t_game *game);
+
+//	door.c
+void			door_toggle(t_game *game);
+void			door_update(t_game *game);
 
 //	utils.c
 float			adjust_angle(float angle);
 t_point			point_add(t_point a, t_point b);
 float			dist(t_point a, t_point b);
+// t_ray			*raycaster_supercheck(t_ray rays[4]);
 
 #endif
