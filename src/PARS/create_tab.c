@@ -36,7 +36,10 @@ char	**filling_tab3(char *tab, char *name, int chr, int line)
 		cmp = 0;
 		while (str[cmp])
 		{
-			if (str && (str[cmp] == '0' || str[cmp] == '1'))
+			if (str && (str[cmp] == '0' || str[cmp] == '1'
+				|| str[cmp] == ' ' || str[cmp] == 'D' || str[cmp] == 'O'
+				|| str[cmp] != 'N' || str[cmp] != 'E'
+				|| str[cmp] != 'S' || str[cmp] != 'W'))
 				tab[lg] = str[cmp];
 			else
 				tab[lg] = '0';

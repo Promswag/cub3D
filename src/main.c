@@ -62,7 +62,7 @@ char	*g_textures_path[] = {
 	(char []){"./img/wall_03.png"},
 	(char []){"./img/wall_03.png"},
 	(char []){"./img/wall_03.png"},
-	(char []){"./img/wall_03.png"},
+	(char []){"./img/wall_01.png"},
 	0
 };
 
@@ -85,10 +85,7 @@ int	main(int argc, char **argv)
 	t_game	game;
 
 	if (argc != 2 || parsing(argv[1]))
-	{
-		printf("Error\n");
-		return (0);
-	}
+		return (printf("Error\n"));
 	game = game_init(argv[1]);
 	game.player.coord = (t_point){(5 + 0.5) * TILE_SIZE, (5 + 0.5) * TILE_SIZE};
 	map_length(&game);
