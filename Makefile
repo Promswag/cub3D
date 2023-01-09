@@ -14,6 +14,12 @@ SRC				= 	main.c \
 					draw.c \
 					minimap.c \
 
+SRC				+=	PARS/check_map.c \
+                    PARS/parsing.c \
+                   	PARS/wall_inspect.c \
+                   	PARS/create_tab.c \
+
+
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
 INCLUDE			= -I${INC_DIR}
@@ -33,7 +39,7 @@ all: ${NAME}
 ${NAME}: ${OBJS}
 	make -C libft
 #	@${CC} ${MLX} ${GLFW} ${NAME} ${LIBFT} ${INCLUDE} ${OBJS} ${CFLAGS}
-	@${CC} libmlx42.a -lglfw -L/Users/gbaumgar/goinfre/homebrew/Cellar/glfw/3.3.8/lib -o ${NAME} ${LIBFT} ${INCLUDE} ${OBJS} ${CFLAGS}
+	@${CC} libmlx42.a -lglfw -L/Users/${USER}/goinfre/homebrew/Cellar/glfw/3.3.8/lib -o ${NAME} ${LIBFT} ${INCLUDE} ${OBJS} ${CFLAGS}
 
 ${OUT_DIR}%.o: %.c Makefile
 	@${MKDIR} ${OUT_DIR}

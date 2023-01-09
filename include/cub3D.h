@@ -17,6 +17,7 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "get_next_line.h"
 # include <math.h>
+# include "cub3d_parsing.h"
 
 # define TILE_SIZE 64
 # define DISPLAY_WIDTH 1600
