@@ -6,12 +6,23 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:43:24 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/06 17:04:56 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/09 15:36:36 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include <stdio.h>
+
+int	adjust_yx(float a, int b)
+{
+	int	r;
+
+	r = a - 5 * TILE_SIZE + b * 2;
+	if (r < 0)
+		r -= TILE_SIZE;
+	r /= TILE_SIZE;
+	return (r);
+}
 
 void	draw_blocs(t_game *game)
 {
@@ -23,15 +34,17 @@ void	draw_blocs(t_game *game)
 	i = -1;
 	while (++i < 320)
 	{
-		y = (game->player.coord.y - 320 + i * 2) / TILE_SIZE;
+		y = adjust_yx(game->player.coord.y, i);
 		j = -1;
 		while (++j < 320)
 		{
-			x = (game->player.coord.x - 320 + j * 2) / TILE_SIZE;
+			x = adjust_yx(game->player.coord.x, j);
 			if (x >= 0 && x < game->map.col && y >= 0 && y < game->map.row)
 			{
 				if (game->map.map[y][x] == '0')
 					mlx_put_pixel(game->window, j + 2, i + 2, 0xB0B0B0FF);
+				else if (game->map.map[y][x] == 0)
+					mlx_put_pixel(game->window, j + 2, i + 2, 0x333333FF);
 				else
 					mlx_put_pixel(game->window, j + 2, i + 2, 0x777777FF);
 			}

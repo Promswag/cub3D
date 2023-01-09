@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 09:26:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/06 15:48:12 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:06:42 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,61 @@ void	draw_pixel(t_game *game, int x, t_texture_info ti, t_texture *t)
 		ti.y += ti.r;
 	}
 }
+
+void	draw_pixel_door(t_game *game, int x, t_texture_info ti, t_texture *t)
+{
+	int		i;
+
+	i = -1;
+	while (++i < ti.h)
+	{
+		if (ti.x < t->width / 2 - game->door.frame * t->width / TILE_SIZE || \
+			ti.x >= t->width / 2 + game->door.frame * t->width / TILE_SIZE)
+		{
+			if (ti.x >= 0 && ti.x < t->width / 2)
+			{
+				// ti.x = ti.x + game->door.frame;
+				if (ti.x >= 0 && ti.x < t->width / 2)
+					mlx_put_pixel(game->window, x, ti.o + i, \
+						get_color(ti.x, ti.y, t));
+			}
+			else if (ti.x >= t->width / 2 && ti.x < t->width)
+			{
+				// ti.x = ti.x - game->door.frame;
+				if (ti.x >= t->width / 2 && ti.x < t->width)
+					mlx_put_pixel(game->window, x, ti.o + i, \
+						get_color(ti.x, ti.y, t));
+			}
+			// printf("%f, %d\n", ti.x, game->door.frame);
+		}
+		ti.y += ti.r;
+	}
+}
+
+void	draw_stripe_door(t_game *game, int x, float angle, t_ray ray)
+{
+	t_texture_info	t;
+	int				offset;
+
+	if (ray.distance != 1e9)
+	{
+		ray.distance *= cos(adjust_angle(game->player.angle - angle));
+		t.h = (1.0 * TILE_SIZE * DISPLAY_WIDTH * 60 / FOV) / ray.distance;
+		t.r = 1.0 * game->textures[4]->height / t.h;
+		offset = 0;
+		if (t.h > DISPLAY_HEIGHT)
+		{
+			offset = (t.h - DISPLAY_HEIGHT) >> 1;
+			t.h = DISPLAY_HEIGHT;
+		}
+		t.o = (DISPLAY_HEIGHT - t.h) >> 1;
+		t.y = offset * t.r;
+		t.x = (int)(ray.r.x * game->textures[4]->width / TILE_SIZE) \
+			% game->textures[4]->width;
+		draw_pixel_door(game, x, t, game->textures[4]);
+	}
+}
+
 
 void	draw_stripe(t_game *game, int x, float angle, t_ray ray)
 {
@@ -66,6 +121,9 @@ void	draw(void *param)
 	game->window = mlx_new_image(game->mlx, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	raycaster(game);
 	if (game->bonus)
+	{
 		draw_minimap(game);
+		door_update(game);
+	}
 	mlx_image_to_window(game->mlx, game->window, 0, 0);
 }

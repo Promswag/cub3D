@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:00:58 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/06 17:05:13 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:17:49 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ char	*g_map[] = {
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'0', '0', '0', '0', '1', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', '0', '1', '0', '1', 0},
+	(char []){'1', '0', '0', '1', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '1', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
+	(char []){'1', 'D', '1', '1', 'D', '1', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '1', '0', '0', '1', 0},
@@ -47,7 +47,7 @@ char	*g_map[] = {
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
+	(char []){'1', '0', '0', 'D', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
@@ -64,6 +64,7 @@ char	*g_textures_path[] = {
 	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
 	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
 	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
+	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_01.png"},
 	0
 };
 
@@ -76,6 +77,7 @@ t_game	game_init(void)
 		.window = 0,
 		.textures = 0,
 		.player = (t_player){0 - (PI / 2), (t_point){0, 0}},
+		.door = (t_door){(t_point){0, 0}, 0, 0},
 		.keys = (t_keys){0, 0, 0, 0, 0, 0}
 	});
 }
@@ -86,7 +88,7 @@ int	main(int argc, char **argv)
 
 	game = game_init();
 	game.player.angle *= S;
-	game.player.coord = (t_point){(5 + 0.5) * TILE_SIZE, (5 + 0.5) * TILE_SIZE};
+	game.player.coord = (t_point){(4 + 0.5) * TILE_SIZE, (7 + 0.5) * TILE_SIZE};
 	game.map.map = g_map;
 	map_length(&game);
 	if (load_textures(&game, g_textures_path))
@@ -94,6 +96,8 @@ int	main(int argc, char **argv)
 	game.mlx = mlx_init(DISPLAY_WIDTH, DISPLAY_HEIGHT, "cub3D", true);
 	if (!game.mlx)
 		return (1);
+	mlx_set_window_pos(game.mlx, (2560 - DISPLAY_WIDTH) >> 1, \
+		(1440 - DISPLAY_HEIGHT) >> 1);
 	game.window = mlx_new_image(game.mlx, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	if (!game.window)
 		return (1);
