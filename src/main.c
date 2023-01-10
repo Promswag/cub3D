@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:00:58 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/09 17:17:49 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/10 16:54:15 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ char	*g_textures_path[] = {
 	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
 	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
 	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
+	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_0.png"},
 	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_01.png"},
+	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_02.png"},
 	0
 };
 
@@ -77,7 +79,7 @@ t_game	game_init(void)
 		.window = 0,
 		.textures = 0,
 		.player = (t_player){0 - (PI / 2), (t_point){0, 0}},
-		.door = (t_door){(t_point){0, 0}, 0, 0},
+		.doors = 0,
 		.keys = (t_keys){0, 0, 0, 0, 0, 0}
 	});
 }
@@ -91,6 +93,7 @@ int	main(int argc, char **argv)
 	game.player.coord = (t_point){(4 + 0.5) * TILE_SIZE, (7 + 0.5) * TILE_SIZE};
 	game.map.map = g_map;
 	map_length(&game);
+	door_loader(&game);
 	if (load_textures(&game, g_textures_path))
 		return (1);
 	game.mlx = mlx_init(DISPLAY_WIDTH, DISPLAY_HEIGHT, "cub3D", true);

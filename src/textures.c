@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:53:33 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/09 12:09:42 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/10 17:07:12 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,20 @@ int	load_texture_pixels(t_texture *texture, mlx_texture_t *t)
 
 int	load_texture_placeholder(t_texture *texture)
 {
-	texture->height = 1;
-	texture->width = 1;
-	texture->pixels = malloc(sizeof(unsigned int));
+	int		i;
+	int		max;
+
+	texture->height = 64;
+	texture->width = 64;
+	max = texture->height * texture->width;
+	texture->pixels = malloc(sizeof(unsigned int) * max);
 	if (!texture->pixels)
 		return (1);
-	*texture->pixels = 0x666666FF;
+	i = -1;
+	while (++i < max)
+		texture->pixels[i] = \
+				0x111111FF + 0x00001100 * i;
+			// 0x606060FF + 0x40404000 * (((i % 2) + (i / 64) % 2) % 2);
 	return (0);
 }
 
@@ -56,11 +64,11 @@ int	load_textures(t_game *game, char **path)
 	int				i;
 	mlx_texture_t	*texture;
 
-	game->textures = malloc(sizeof(t_texture *) * 5);
+	game->textures = malloc(sizeof(t_texture *) * 7);
 	if (!game->textures)
 		return (1);
 	i = -1;
-	while (++i < 5)
+	while (++i < 7)
 	{
 		game->textures[i] = malloc(sizeof(t_texture));
 		if (!game->textures[i])
@@ -76,6 +84,7 @@ int	load_textures(t_game *game, char **path)
 			if (load_texture_placeholder(game->textures[i]))
 				return (1);
 		}
+		printf("%d, %d\n", game->textures[i]->height, game->textures[i]->width);
 	}
 	return (0);
 }

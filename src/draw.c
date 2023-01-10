@@ -6,61 +6,37 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 09:26:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/09 17:06:42 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/10 17:00:49 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-unsigned int	get_color(int x, int y, t_texture *t)
-{
-	return (t->pixels[y * t->width + x]);
-}
-
-void	draw_pixel(t_game *game, int x, t_texture_info ti, t_texture *t)
+void	draw_pixel_door(t_game *game, int x, t_texture_info ti, t_doorlst *d)
 {
 	int		i;
+	int		j;
+	float	o;
+	float	t;
 
 	i = -1;
-	while (++i < ti.o)
-		mlx_put_pixel(game->window, x, i, game->map.ceiling);
-	i = ti.h + ti.o - 1;
-	while (++i < DISPLAY_HEIGHT)
-		mlx_put_pixel(game->window, x, i, game->map.floor);
-	i = -1;
+	j = -1;
+	t = -1;
+	if (ti.x < game->textures[4]->width / 2)
+		t = 1;
 	while (++i < ti.h)
 	{
-		mlx_put_pixel(game->window, x, ti.o + i, get_color(ti.x, ti.y, t));
-		ti.y += ti.r;
-	}
-}
-
-void	draw_pixel_door(t_game *game, int x, t_texture_info ti, t_texture *t)
-{
-	int		i;
-
-	i = -1;
-	while (++i < ti.h)
-	{
-		if (ti.x < t->width / 2 - game->door.frame * t->width / TILE_SIZE || \
-			ti.x >= t->width / 2 + game->door.frame * t->width / TILE_SIZE)
-		{
-			if (ti.x >= 0 && ti.x < t->width / 2)
-			{
-				// ti.x = ti.x + game->door.frame;
-				if (ti.x >= 0 && ti.x < t->width / 2)
-					mlx_put_pixel(game->window, x, ti.o + i, \
-						get_color(ti.x, ti.y, t));
-			}
-			else if (ti.x >= t->width / 2 && ti.x < t->width)
-			{
-				// ti.x = ti.x - game->door.frame;
-				if (ti.x >= t->width / 2 && ti.x < t->width)
-					mlx_put_pixel(game->window, x, ti.o + i, \
-						get_color(ti.x, ti.y, t));
-			}
-			// printf("%f, %d\n", ti.x, game->door.frame);
-		}
+		if (i % ((int)ti.h / 4) == 0 && j < 3)
+			j++;
+		o = ti.x;
+		if (j == (d->frame / 8))
+			o = ti.x + (game->textures[4]->width / 64 * (d->frame - 8 * j) * 4) * t;
+		else if (j < (d->frame / 8))
+			o = -1;
+		if ((t == 1 && o >= 0 && o < game->textures[4]->width / 2) || (t == -1 \
+		&& o >= game->textures[4]->width / 2 && o < game->textures[4]->width))
+			mlx_put_pixel(game->window, x, ti.o + i, \
+			get_color(o, ti.y, game->textures[4]));
 		ti.y += ti.r;
 	}
 }
@@ -85,10 +61,27 @@ void	draw_stripe_door(t_game *game, int x, float angle, t_ray ray)
 		t.y = offset * t.r;
 		t.x = (int)(ray.r.x * game->textures[4]->width / TILE_SIZE) \
 			% game->textures[4]->width;
-		draw_pixel_door(game, x, t, game->textures[4]);
+		draw_pixel_door(game, x, t, ray.door);
 	}
 }
 
+void	draw_pixel(t_game *game, int x, t_texture_info ti, t_texture *t)
+{
+	int		i;
+
+	i = -1;
+	while (++i < ti.o)
+		mlx_put_pixel(game->window, x, i, game->map.ceiling);
+	i = ti.h + ti.o - 1;
+	while (++i < DISPLAY_HEIGHT)
+		mlx_put_pixel(game->window, x, i, game->map.floor);
+	i = -1;
+	while (++i < ti.h)
+	{
+		mlx_put_pixel(game->window, x, ti.o + i, get_color(ti.x, ti.y, t));
+		ti.y += ti.r;
+	}
+}
 
 void	draw_stripe(t_game *game, int x, float angle, t_ray ray)
 {

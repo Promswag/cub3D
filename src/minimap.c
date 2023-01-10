@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:43:24 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/09 15:36:36 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:43:32 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ int	adjust_yx(float a, int b)
 		r -= TILE_SIZE;
 	r /= TILE_SIZE;
 	return (r);
+}
+
+void	minimap_color_scheme(t_game *game, char c, int j, int i)
+{
+	if (c == '1')
+		mlx_put_pixel(game->window, j + 2, i + 2, 0x707070FF);
+	else if (c == '0')
+		mlx_put_pixel(game->window, j + 2, i + 2, 0xB0B0B0FF);
+	else if (c == 'D' || c == 'O')
+		mlx_put_pixel(game->window, j + 2, i + 2, 0x909090FF);
+	else
+		mlx_put_pixel(game->window, j + 2, i + 2, 0x303030FF);
 }
 
 void	draw_blocs(t_game *game)
@@ -40,14 +52,7 @@ void	draw_blocs(t_game *game)
 		{
 			x = adjust_yx(game->player.coord.x, j);
 			if (x >= 0 && x < game->map.col && y >= 0 && y < game->map.row)
-			{
-				if (game->map.map[y][x] == '0')
-					mlx_put_pixel(game->window, j + 2, i + 2, 0xB0B0B0FF);
-				else if (game->map.map[y][x] == 0)
-					mlx_put_pixel(game->window, j + 2, i + 2, 0x333333FF);
-				else
-					mlx_put_pixel(game->window, j + 2, i + 2, 0x777777FF);
-			}
+				minimap_color_scheme(game, game->map.map[y][x], j, i);
 			else
 				mlx_put_pixel(game->window, j + 2, i + 2, 0x333333FF);
 		}

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/09 14:21:00 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:46:37 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "get_next_line.h"
 # include <math.h>
 #include <stdio.h>
-
 
 # define TILE_SIZE 64
 # define DISPLAY_WIDTH 1600
@@ -54,12 +53,14 @@ typedef struct s_player
 	t_point	coord;
 }	t_player;
 
-typedef struct s_door
+typedef struct s_doorlst
 {
-	t_point			coord;
-	unsigned int	frame;
-	unsigned int	status;
-}	t_door;
+	int					x;
+	int					y;
+	int					frame;
+	int					status;
+	struct s_doorlst	*next;
+}	t_doorlst;
 
 typedef struct s_keys
 {
@@ -86,7 +87,7 @@ typedef struct s_game
 	mlx_image_t		*window;
 	t_texture		**textures;
 	t_player		player;
-	t_door			door;
+	t_doorlst		*doors;
 	t_keys			keys;
 }	t_game;
 
@@ -95,6 +96,7 @@ typedef struct s_ray
 	float			distance;
 	t_point			r;
 	t_point			o;
+	t_doorlst		*door;
 	unsigned int	direction;
 }	t_ray;
 
@@ -128,13 +130,19 @@ void			draw_stripe_door(t_game *game, int x, float angle, t_ray ray);
 void			raycaster(t_game *game);
 
 //	door.c
+int				door_loader(t_game *game);
 void			door_toggle(t_game *game);
 void			door_update(t_game *game);
+t_doorlst		*which_door(t_game *game, int x, int y);
+
+//	doorlst.c
+t_doorlst		*new_doorlst(unsigned int x, unsigned int y, char status);
+void			doorlst_add_back(t_doorlst **lst, t_doorlst *new);
 
 //	utils.c
+unsigned int	get_color(int x, int y, t_texture *t);
 float			adjust_angle(float angle);
 t_point			point_add(t_point a, t_point b);
 float			dist(t_point a, t_point b);
-// t_ray			*raycaster_supercheck(t_ray rays[4]);
 
 #endif

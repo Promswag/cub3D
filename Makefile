@@ -14,6 +14,7 @@ SRC				= 	main.c \
 					draw.c \
 					minimap.c \
 					door.c \
+					doorlst.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
@@ -25,7 +26,7 @@ GLFW			= -L/Users/${USER}/goinfre/homebrew/Cellar/glfw/3.3.8/lib -lglfw
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra 
 # CFLAGS			+= -Werror
-# CFLAGS			+= -fsanitize=address
+CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 

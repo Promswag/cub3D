@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:14:31 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/09 17:16:59 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/10 10:47:51 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_ray	*raycaster_step(t_game *game, t_ray *ray)
 				{
 					ray[1].r = point_add(ray[1].r, (t_point){ray[1].o.x / 2, ray[1].o.y / 2});
 					ray[1].distance = dist(game->player.coord, ray[1].r);
+					ray[1].door = which_door(game, mx, my);
 				}
 			}
 		}

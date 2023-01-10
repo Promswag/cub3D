@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:43:47 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/09 17:09:53 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:46:55 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ t_point	move_point(t_game *game, float angle, float step)
 
 void	movements_handler(t_game *game)
 {
-
 	if (game->keys.w)
 		game->player.coord = move_point(game, 0, 5);
 	if (game->keys.s)
