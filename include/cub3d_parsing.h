@@ -26,5 +26,8 @@ int		check_player(char *str);
 int		parsing(char *name);
 int		tab_row(char *name);
 int		tab_col(char *name);
+unsigned int	fc_color(char *name, char chr);
+char **path_texture(char *name);
+void	ft_erase(char **array);
 
 #endif

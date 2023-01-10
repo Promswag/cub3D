@@ -79,7 +79,6 @@ int	check_player(char *name)
 	}
 	close (fd);
 	return (result);
-
 }
 
 int	parsing(char *name)

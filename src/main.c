@@ -19,8 +19,8 @@ void	map_length(t_game *game)
 	i = 0;
 	while (game->map.map && game->map.map[i])
 		i++;
-	game->map.ceiling = 0x1C2E50FF;
-	game->map.floor = 0x7F7F7FFF;
+//	game->map.ceiling = 0x1C2E50FF;
+//	game->map.floor = 0x7F7F7FFF;
 }
 
 char	*g_map[] = {
@@ -71,7 +71,8 @@ t_game	game_init(char *name)
 	return ((t_game){
 		.bonus = 1,
 		.mlx = 0,
-		.map = (t_map){filling_tab(name), tab_row(name), tab_col(name), 0, 0},
+		.map = (t_map){filling_tab(name), tab_row(name), tab_col(name)
+					   ,fc_color(name, 'C'), fc_color(name, 'F')},
 		.window = 0,
 		.textures = 0,
 		.player = (t_player){(0 - (PI / 2)) * check_player(name), (t_point){0, 0}},
@@ -87,9 +88,10 @@ int	main(int argc, char **argv)
 	if (argc != 2 || parsing(argv[1]))
 		return (printf("Error\n"));
 	game = game_init(argv[1]);
+	path_texture(argv[1]);
 	game.player.coord = (t_point){(5 + 0.5) * TILE_SIZE, (5 + 0.5) * TILE_SIZE};
 	map_length(&game);
-	if (load_textures(&game, g_textures_path))
+	if (load_textures(&game, path_texture(argv[1])))
 		return (1);
 	game.mlx = mlx_init(DISPLAY_WIDTH, DISPLAY_HEIGHT, "cub3D", true);
 	if (!game.mlx)

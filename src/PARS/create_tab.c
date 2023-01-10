@@ -21,7 +21,6 @@ char	**filling_tab3(char *tab, char *name, int chr, int line)
 	int		fd;
 	int		lg;
 
-
 	save = 0;
 	lg = 0;
 	fd = open(name, O_RDONLY);
@@ -80,7 +79,6 @@ int	tab_row(char *name)
 		free(str);
 		str = get_next_line(fd);
 	}
-	free(str);
 	close(fd);
 	return (row);
 }
@@ -108,7 +106,6 @@ int	tab_col(char *name)
 		free(str);
 		str = get_next_line(fd);
 	}
-	free(str);
 	close(fd);
 	return (col);
 }

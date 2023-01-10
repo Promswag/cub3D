@@ -19,6 +19,8 @@ SRC				+=	PARS/check_map.c \
                     PARS/parsing.c \
                    	PARS/wall_inspect.c \
                    	PARS/create_tab.c \
+                   	PARS/pars_texture.c \
+                   	PARS/fc_texture.c \
 
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
@@ -31,7 +33,7 @@ GLFW			= -L/Users/${USER}/goinfre/homebrew/Cellar/glfw/3.3.8/lib -lglfw
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra 
 # CFLAGS			+= -Werror
-# CFLAGS			+= -fsanitize=address
+ CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 

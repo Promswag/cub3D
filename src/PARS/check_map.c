@@ -105,7 +105,7 @@ int	check_map(char *name)
 	i = nbr_of_line(fd);
 	if (i == -1 || i == 0)
 		return (1);
-	tab = calloc((i + 1), sizeof(char *));
+	tab = ft_calloc((i + 1), sizeof(char *));
 	close(fd);
 	fd = open(name, O_RDONLY);
 	fill_tab(tab, fd);
