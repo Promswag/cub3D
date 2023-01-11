@@ -12,17 +12,6 @@
 
 #include "cub3D.h"
 
-void	map_length(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (game->map.map && game->map.map[i])
-		i++;
-//	game->map.ceiling = 0x1C2E50FF;
-//	game->map.floor = 0x7F7F7FFF;
-}
-
 char	*g_map[] = {
 	(char []){'1', '1', '1', '1', '1', '1', '1', 0},
 	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
@@ -102,8 +91,6 @@ int	main(int argc, char **argv)
 	if (argc != 2 || parsing(argv[1]))
 		return (printf("Error\n"));
 	game = game_init(argv[1]);
-//	game.player.coord = (t_point){(16 + 0.5) * TILE_SIZE, (3 + 0.5) * TILE_SIZE};
-	map_length(&game);
 	door_loader(&game);
 	if (load_textures(&game, path_texture(argv[1])))
 		return (1);
