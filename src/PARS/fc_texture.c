@@ -6,24 +6,28 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:10:26 by aho               #+#    #+#             */
-/*   Updated: 2023/01/11 16:47:11 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 17:29:37 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	ft_erase(char **array)
+void	ft_erase(char **array, int state)
 {
 	int	i;
 
+	i = -1;
 	if (!array)
 		return ;
-	i = -1;
+	if (state)
+	{
+		while (++i < 4)
+			free(array[i]);
+		free(array);
+		return ;
+	}
 	while (array[++i])
 		free(array[i]);
-	// {
-	// 	i++;
-	// }
 	free(array);
 }
 
@@ -51,7 +55,7 @@ unsigned int	pars_get_color(char *str)
 	color = ((ft_atoi(tab[0]) << 24) + ((ft_atoi(tab[1])) << 16)
 			+ (ft_atoi(tab[2]) << 8) + 255);
 	free(split);
-	ft_erase(tab);
+	ft_erase(tab, 0);
 	return (color);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:00:58 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 17:02:50 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 17:19:14 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ int	game_terminate(t_game *game, int i)
 		printf("Error\n");
 	doorlst_destroy(&game->doors);
 	texture_destroy(game->textures);
-	ft_erase(game->map.map);
-	// ft_erase(game->map.path);
+	ft_erase(game->map.map, 0);
+	if (game->bonus)
+		ft_erase(game->map.path, 0);
+	else
+		ft_erase(game->map.path, 1);
 	return (1);
 }
 
