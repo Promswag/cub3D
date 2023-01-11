@@ -152,4 +152,6 @@ float			adjust_angle(float angle);
 t_point			point_add(t_point a, t_point b);
 float			dist(t_point a, t_point b);
 
+t_point			check_coor(char *name, t_point coor);
+
 #endif

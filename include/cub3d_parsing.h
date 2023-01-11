@@ -17,6 +17,12 @@
 # include "get_next_line.h"
 # include <stdio.h>
 
+typedef struct s_arg_pars
+{
+	int		fd;
+	char	*str;
+}	t_arg_pars;
+
 int				condition_map(char *str);
 int				wall_inspect(char **tab, int line);
 int				check_map(char *name);

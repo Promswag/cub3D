@@ -81,6 +81,35 @@ int	check_player(char *name)
 	return (result);
 }
 
+t_point check_coor(char *name, t_point	coor)
+{
+	t_arg_pars	index;
+	int			i;
+
+	index.fd = open(name, O_RDONLY);
+	index.str = get_next_line(index.fd);
+	while (index.str)
+	{
+		i = -1;
+		if (!condition_map(index.str))
+		{
+			while (index.str[++i])
+			{
+				if (index.str[i] == 'E' || index.str[i] == 'N'
+					|| index.str[i] == 'D' || index.str[i] == 'W')
+					coor.x = i;
+			}
+			coor.y++;
+		}
+		free(index.str);
+		if (coor.x != -1)
+			break ;
+		index.str = get_next_line(index.fd);
+	}
+	close(index.fd);
+	return (coor);
+}
+
 int	parsing(char *name)
 {
 	if (check_map(name) || check_name(name)

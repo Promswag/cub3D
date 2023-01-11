@@ -79,7 +79,7 @@ int	load_textures(t_game *game, char **path)
 	int				i;
 	mlx_texture_t	*texture;
 
-	i = 7;
+	i = 5;
 	game->textures = malloc(sizeof(t_texture *) * (i + 1));
 	if (!game->textures)
 		return (1);
