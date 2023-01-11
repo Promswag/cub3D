@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:53:33 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/10 17:07:12 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:19:42 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,21 @@ int	load_texture_pixels(t_texture *texture, mlx_texture_t *t)
 	return (0);
 }
 
-int	load_texture_placeholder(t_texture *texture)
+int	load_texture_placeholder(t_texture *texture, int value)
 {
 	int		i;
 	int		max;
 
-	texture->height = 64;
-	texture->width = 64;
-	max = texture->height * texture->width;
+	texture->height = value;
+	texture->width = value;
+	max = value * value;
 	texture->pixels = malloc(sizeof(unsigned int) * max);
 	if (!texture->pixels)
 		return (1);
 	i = -1;
 	while (++i < max)
 		texture->pixels[i] = \
-				0x111111FF + 0x00001100 * i;
-			// 0x606060FF + 0x40404000 * (((i % 2) + (i / 64) % 2) % 2);
+			0x606060FF + 0x40404000 * (((i % 2) + (i / value) % 2) % 2);
 	return (0);
 }
 
@@ -81,10 +80,9 @@ int	load_textures(t_game *game, char **path)
 		}
 		else
 		{
-			if (load_texture_placeholder(game->textures[i]))
+			if (load_texture_placeholder(game->textures[i], 32))
 				return (1);
 		}
-		printf("%d, %d\n", game->textures[i]->height, game->textures[i]->width);
 	}
 	return (0);
 }

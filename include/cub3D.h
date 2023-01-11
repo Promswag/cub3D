@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/10 14:46:37 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:33:31 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,9 @@ void			draw_stripe_door(t_game *game, int x, float angle, t_ray ray);
 
 //	raycaster.c
 void			raycaster(t_game *game);
+
+//	raycaster_utils.c
+void			raycaster_door(t_game *game, t_ray *ray, int mx, int my);
 
 //	door.c
 int				door_loader(t_game *game);
