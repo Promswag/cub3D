@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 13:40:42 by aho               #+#    #+#             */
-/*   Updated: 2023/01/11 15:57:59 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 17:02:38 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ int	condition_path(char *dir, char *stc)
 
 char	**dir_init(void)
 {
-	char	**tab;
+	static char	*tab[] = {"NO", "SO", "WE", "EA", "DO", 0};
+	// char	**tab;
 
-	tab = ft_calloc(6, sizeof(char *));
-	tab[0] = "NO";
-	tab[1] = "SO";
-	tab[2] = "WE";
-	tab[3] = "EA";
-	tab[4] = "DO";
+	// tab = ft_calloc(6, sizeof(char *));
+	// tab[0] = "NO";
+	// tab[1] = "SO";
+	// tab[2] = "WE";
+	// tab[3] = "EA";
+	// tab[4] = "DO";
 	return (tab);
 }
 

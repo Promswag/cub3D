@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fc_texture.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:10:26 by aho               #+#    #+#             */
-/*   Updated: 2023/01/10 17:10:27 by aho              ###   ########.fr       */
+/*   Updated: 2023/01/11 16:47:11 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	ft_erase(char **array)
 
 	if (!array)
 		return ;
-	i = 0;
-	while (array[i] != 0)
-	{
+	i = -1;
+	while (array[++i])
 		free(array[i]);
-		i++;
-	}
+	// {
+	// 	i++;
+	// }
 	free(array);
 }
 
