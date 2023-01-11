@@ -4,6 +4,7 @@ SRC_DIR			= ./src/
 OUT_DIR			= ./obj/
 
 SRC				= 	main.c \
+					bonus.c \
 					get_next_line.c \
 					get_next_line_utils.c \
 					utils.c \
@@ -16,17 +17,16 @@ SRC				= 	main.c \
 					minimap.c \
 					door.c \
 					doorlst.c \
-
-SRC				+=	PARS/check_map.c \
-                    PARS/parsing.c \
-                   	PARS/wall_inspect.c \
-                   	PARS/create_tab.c \
-                   	PARS/pars_texture.c \
-                   	PARS/fc_texture.c \
-                   	PARS/pars_utils.c \
+					pars/check_map.c \
+                    pars/parsing.c \
+                   	pars/wall_inspect.c \
+                   	pars/create_tab.c \
+                   	pars/pars_texture.c \
+                   	pars/fc_texture.c \
+                   	pars/pars_utils.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
-BSRCC			= ${SRCC:${SRC_DIR}main.c=${SRC_DIR}main_bonus.c}
+BSRCC			= ${SRCC:${SRC_DIR}bonus.c=${SRC_DIR}bonus_bonus.c}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
 BOBJS			= ${BSRCC:%.c=${OUT_DIR}%.o}			
 INCLUDE			= -I${INC_DIR}
@@ -37,7 +37,7 @@ GLFW			= -L/Users/${USER}/goinfre/homebrew/Cellar/glfw/3.3.8/lib -lglfw
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra 
 # CFLAGS			+= -Werror
-CFLAGS			+= -fsanitize=address
+# CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 

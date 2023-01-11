@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 13:21:34 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:25:15 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ typedef struct s_tinfo
 	float	x;
 	float	y;
 }	t_tinfo;
+
+//	inputs.c
+void			bonus_toggler(t_game *game);
 
 //	inputs.c
 void			key_handler(mlx_key_data_t k, void *param);

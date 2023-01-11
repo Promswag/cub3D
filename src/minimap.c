@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:43:24 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 11:21:20 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 14:54:08 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	minimap_color_scheme(t_game *game, char c, int j, int i)
 {
 	if (c == '1')
 		mlx_put_pixel(game->window, j + 2, i + 2, 0x707070FF);
-	else if (c == '0')
+	else if (c == '0' || c == 'E' || c == 'N' || c == 'W' || c == 'S')
 		mlx_put_pixel(game->window, j + 2, i + 2, 0xB0B0B0FF);
 	else if (c == 'D' || c == 'O')
 		mlx_put_pixel(game->window, j + 2, i + 2, 0x909090FF);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 13:04:30 by aho               #+#    #+#             */
-/*   Updated: 2022/12/29 13:04:31 by aho              ###   ########.fr       */
+/*   Updated: 2023/01/11 16:20:34 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ int	check_dir(char *str)
 	while (str[i])
 	{
 		if (str[i] == 'E')
-			return (0);
+			return (E);
 		else if (str[i] == 'N')
-			return (1);
+			return (N);
 		else if (str[i] == 'W')
-			return (2);
+			return (W);
 		else if (str[i] == 'S')
-			return (3);
+			return (S);
 		i++;
 	}
 	return (-1);
@@ -81,7 +81,7 @@ int	check_player(char *name)
 	return (result);
 }
 
-t_point	check_coor(char *name, t_point	coor)
+t_point	check_coor(char *name, t_point coor)
 {
 	t_arg_pars	index;
 	int			i;

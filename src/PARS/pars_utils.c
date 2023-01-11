@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:55:58 by aho               #+#    #+#             */
-/*   Updated: 2023/01/11 12:56:00 by aho              ###   ########.fr       */
+/*   Updated: 2023/01/11 16:12:30 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	pars_bonus(char *name)
 
 int	empty_fd(int fd)
 {
-	char *str;
+	char	*str;
 
 	str = get_next_line(fd);
 	while (str)
@@ -105,7 +105,7 @@ int	empty_fd(int fd)
 	return (-1);
 }
 
-void pars_end(void)
+void	pars_end(void)
 {
 	printf("Error\n");
 	exit(1);

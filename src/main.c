@@ -6,28 +6,29 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:00:58 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 12:34:45 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:25:33 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
 int	game_terminate(t_game *game, int i)
-
 {
 	if (i)
 		printf("Error\n");
 	doorlst_destroy(&game->doors);
 	texture_destroy(game->textures);
 	ft_erase(game->map.map);
-	ft_erase(game->map.path);
+	// ft_erase(game->map.path);
 	return (1);
 }
 
-t_game	game_init(char *name, t_point coor)
+t_game	game_init(char *name)
 {
-	t_game game;
+	t_point	coor;
+	t_game	game;
 
+	coor = (t_point){0, 0};
 	coor = check_coor(name, (t_point){-1, -1});
 	game = (t_game){
 		.bonus = 1,
@@ -36,13 +37,13 @@ t_game	game_init(char *name, t_point coor)
 			fc_color(name, 'C'), fc_color(name, 'F'), path_texture(name)},
 		.window = 0,
 		.textures = 0,
-		.player = (t_player){0 - (PI / 2) * check_player(name)
-							 , (t_point){(coor.x + 0.5) * TILE_SIZE
-									   , (coor.y + 0.5) * TILE_SIZE}},
+		.player = (t_player){0 - (PI / 2) * check_player(name), \
+			(t_point){(coor.x + 0.5) * TILE_SIZE, (coor.y + 0.5) * TILE_SIZE}},
 		.doors = 0,
 		.keys = (t_keys){0, 0, 0, 0, 0, 0}
 	};
-	if (game.bonus == 0 && (pars_bonus(name) || game.map.path[4][1]))
+	bonus_toggler(&game);
+	if (game.bonus == 0 && (pars_bonus(name)))
 	{
 		game_terminate(&game, 0);
 		pars_end();
@@ -56,7 +57,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2 || parsing(argv[1]))
 		return (printf("Error\n"));
-	game = game_init(argv[1], (t_point){0, 0});
+	game = game_init(argv[1]);
 	door_loader(&game);
 	if (load_textures(&game, game.map.path))
 		return (game_terminate(&game, 1));

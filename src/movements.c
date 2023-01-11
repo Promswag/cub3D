@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:43:47 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 11:21:38 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:12:51 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,8 @@ static void	mouse_handler(t_game *game)
 	mlx_get_mouse_pos(game->mlx, &x, &y);
 	if (x != d)
 	{
-		if (x > d)
-			game->player.angle = adjust_angle(\
-				game->player.angle + 2 * PI / 360);
-		if (x < d)
-			game->player.angle = adjust_angle(\
-				game->player.angle - 2 * PI / 360);
+		game->player.angle = adjust_angle(\
+			game->player.angle + (PI / 360) * (x - d));
 		mlx_set_mouse_pos(game->mlx, d, DISPLAY_HEIGHT >> 1);
 	}
 }
