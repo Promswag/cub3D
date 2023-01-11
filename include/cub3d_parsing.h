@@ -40,5 +40,6 @@ int				nbr_player(char *name);
 int				pars_bonus(char *name);
 int				empty_fd(int fd);
 void			pars_end(void);
+void			p_error(char **tab);
 
 #endif
