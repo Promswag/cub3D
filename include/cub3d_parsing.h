@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_parsing.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:25:57 by aho               #+#    #+#             */
-/*   Updated: 2022/12/23 15:25:58 by aho              ###   ########.fr       */
+/*   Updated: 2023/01/11 17:14:55 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int				tab_row(char *name);
 int				tab_col(char *name);
 unsigned int	fc_color(char *name, char chr);
 char			**path_texture(char *name);
-void			ft_erase(char **array);
+void			ft_erase(char **array, int state);
 int				nbr_player(char *name);
 int				pars_bonus(char *name);
 int				empty_fd(int fd);
