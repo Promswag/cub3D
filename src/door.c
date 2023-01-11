@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 10:46:07 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 10:30:46 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 13:46:07 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,43 @@ void	door_update(t_game *game)
 	}
 }
 
-void	door_toggle(t_game *game)
+static int	door_check(t_game *game, int x, int y)
 {
 	t_doorlst	*lst;
-	int			x;
-	int			y;
 
 	lst = game->doors;
-	x = (game->player.coord.x + cos(game->player.angle) * 128) / TILE_SIZE;
-	y = (game->player.coord.y + sin(game->player.angle) * 128) / TILE_SIZE;
 	if (x >= 0 && x < game->map.col && y >= 0 && y < game->map.row && \
 		(game->map.map[y][x] == 'D' || game->map.map[y][x] == 'O'))
 	{
 		while (lst)
 		{
 			if (lst->x == x && lst->y == y)
+			{
 				lst->status ^= 1;
+				return (1);
+			}
 			lst = lst->next;
 		}
+	}
+	return (0);
+}
+
+void	door_toggle(t_game *game)
+{
+	int			x;
+	int			y;
+	int			i;
+
+	if (game->map.map[(int)game->player.coord.y / TILE_SIZE][\
+		(int)game->player.coord.x / TILE_SIZE] == 'O')
+		return ;
+	i = 0;
+	while (i < 96)
+	{
+		x = (game->player.coord.x + cos(game->player.angle) * i) / TILE_SIZE;
+		y = (game->player.coord.y + sin(game->player.angle) * i) / TILE_SIZE;
+		if (door_check(game, x, y))
+			return ;
+		i += 4;
 	}
 }

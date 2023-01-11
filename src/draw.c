@@ -6,29 +6,36 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 09:26:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 11:24:01 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 13:22:16 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	draw_pixel_door(t_game *game, int x, t_texture_info ti, t_doorlst *d)
+static void	draw_pixel_door(t_game *game, int x, t_tinfo ti, t_doorlst *d)
 {
 	int		i;
 	int		j;
 	float	o;
 	float	t;
 	int		ratio;
+	int		offset;
 
 	i = -1;
-	j = -1;
 	t = -1;
-	ratio = ti.h / 4;
+	j = -1;
+	offset = 0;
+	ratio = ti.dh / 4;
+	if (ti.dh > ti.h)
+	{
+		offset = (ti.dh - DISPLAY_HEIGHT) >> 1;
+		j = (offset / ratio);
+	}
 	if (ti.x < game->textures[4]->width / 2)
 		t = 1;
 	while (++i < ti.h)
 	{
-		if (i % ratio == 0 && j < 3)
+		if ((i + offset) % ratio == 0 && j < 3)
 			j++;
 		o = ti.x;
 		if (j == (d->frame >> 3))
@@ -46,13 +53,14 @@ static void	draw_pixel_door(t_game *game, int x, t_texture_info ti, t_doorlst *d
 
 void	draw_stripe_door(t_game *game, int x, float angle, t_ray ray)
 {
-	t_texture_info	t;
-	int				offset;
+	t_tinfo	t;
+	int		offset;
 
 	if (ray.distance != 1e9)
 	{
 		ray.distance *= cos(adjust_angle(game->player.angle - angle));
 		t.h = (1.0 * TILE_SIZE * DISPLAY_WIDTH * 60 / FOV) / ray.distance;
+		t.dh = t.h;
 		t.r = 1.0 * game->textures[4]->height / t.h;
 		offset = 0;
 		if (t.h > DISPLAY_HEIGHT)
@@ -68,7 +76,7 @@ void	draw_stripe_door(t_game *game, int x, float angle, t_ray ray)
 	}
 }
 
-static void	draw_pixel(t_game *game, int x, t_texture_info ti, t_texture *t)
+static void	draw_pixel(t_game *game, int x, t_tinfo ti, t_texture *t)
 {
 	int		i;
 
@@ -88,8 +96,8 @@ static void	draw_pixel(t_game *game, int x, t_texture_info ti, t_texture *t)
 
 void	draw_stripe(t_game *game, int x, float angle, t_ray ray)
 {
-	t_texture_info	t;
-	int				offset;
+	t_tinfo	t;
+	int		offset;
 
 	ray.distance *= cos(adjust_angle(game->player.angle - angle));
 	t.h = (1.0 * TILE_SIZE * DISPLAY_WIDTH * 60 / FOV) / ray.distance;

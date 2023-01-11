@@ -25,9 +25,10 @@ SRC				+=	PARS/check_map.c \
                    	PARS/fc_texture.c \
                    	PARS/pars_utils.c \
 
-
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
+BSRCC			= ${SRCC:${SRC_DIR}main.c=${SRC_DIR}main_bonus.c}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
+BOBJS			= ${BSRCC:%.c=${OUT_DIR}%.o}			
 INCLUDE			= -I${INC_DIR}
 MLX				= -L MLX42 -lmlx42
 LIBFT			= -L libft -lft
@@ -40,7 +41,7 @@ CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 
-all: ${NAME}
+all:
 
 ${NAME}: ${OBJS}
 	make -C libft
@@ -64,6 +65,9 @@ fclean:	clean
 
 re: fclean ${NAME}
 
-bonus:	all
+bonus: ${BOBJS}
+	make -C libft
+	make -C MLX42
+	@${CC} ${MLX} ${GLFW} -o ${NAME} ${LIBFT} ${INCLUDE} ${BOBJS} ${CFLAGS}
 
 .PHONY:	all clean fclean re bonus
