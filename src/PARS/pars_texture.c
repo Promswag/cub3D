@@ -19,7 +19,7 @@ int	condition_path(char *dir, char *stc)
 
 	k = 0;
 	i = 0;
-	while (dir[i])
+	while (stc[i])
 	{
 		if (dir[i] == stc[i])
 			k++;

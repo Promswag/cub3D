@@ -17,17 +17,17 @@
 # include "get_next_line.h"
 # include <stdio.h>
 
-int		condition_map(char *str);
-int		wall_inspect(char **tab, int line);
-int		check_map(char *name);
-char	**filling_tab(char *name);
-int		check_name(char *name);
-int		check_player(char *str);
-int		parsing(char *name);
-int		tab_row(char *name);
-int		tab_col(char *name);
+int				condition_map(char *str);
+int				wall_inspect(char **tab, int line);
+int				check_map(char *name);
+char			**filling_tab(char *name);
+int				check_name(char *name);
+int				check_player(char *str);
+int				parsing(char *name);
+int				tab_row(char *name);
+int				tab_col(char *name);
 unsigned int	fc_color(char *name, char chr);
-char **path_texture(char *name);
-void	ft_erase(char **array);
+char			**path_texture(char *name);
+void			ft_erase(char **array);
 
 #endif

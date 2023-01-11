@@ -72,7 +72,8 @@ t_game	game_init(char *name)
 		.bonus = 1,
 		.mlx = 0,
 		.map = (t_map){filling_tab(name), tab_row(name), tab_col(name)
-					   ,fc_color(name, 'C'), fc_color(name, 'F')},
+					   ,fc_color(name, 'C'), fc_color(name, 'F')
+					   , path_texture(name)},
 		.window = 0,
 		.textures = 0,
 		.player = (t_player){(0 - (PI / 2)) * check_player(name), (t_point){0, 0}},
