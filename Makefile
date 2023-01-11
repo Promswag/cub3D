@@ -21,6 +21,8 @@ SRC				+=	PARS/check_map.c \
                     PARS/parsing.c \
                    	PARS/wall_inspect.c \
                    	PARS/create_tab.c \
+                   	PARS/pars_texture.c \
+                   	PARS/fc_texture.c \
 
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}

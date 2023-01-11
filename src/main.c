@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:00:58 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 11:36:57 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:47:48 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	map_length(t_game *game)
 	i = 0;
 	while (game->map.map && game->map.map[i])
 		i++;
-	game->map.ceiling = 0x1C2E50FF;
-	game->map.floor = 0x7F7F7FFF;
+//	game->map.ceiling = 0x1C2E50FF;
+//	game->map.floor = 0x7F7F7FFF;
 }
 
 char	*g_map[] = {
@@ -79,7 +79,9 @@ t_game	game_init(char *name)
 	return ((t_game){
 		.bonus = 1,
 		.mlx = 0,
-		.map = (t_map){filling_tab(name), tab_row(name), tab_col(name), 0, 0},
+		.map = (t_map){filling_tab(name), tab_row(name), tab_col(name)
+					   ,fc_color(name, 'C'), fc_color(name, 'F')
+					   , path_texture(name)},
 		.window = 0,
 		.textures = 0,
 		.player = (t_player){0 - (PI / 2) * E, (t_point){0, 0}},

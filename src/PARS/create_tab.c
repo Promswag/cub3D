@@ -12,58 +12,6 @@
 
 #include "cub3D.h"
 
-char	**filling_tab3(char *tab, char *name, int chr, int line)
-{
-	char	**result;
-	char	*str;
-	int		save;
-	int		cmp;
-	int		fd;
-	int		lg;
-
-
-	save = 0;
-	lg = 0;
-	fd = open(name, O_RDONLY);
-	str = get_next_line(fd);
-	while (condition_map(str))
-	{
-		free(str);
-		str = get_next_line(fd);
-	}
-	while (save < line)
-	{
-		cmp = 0;
-		while (str[cmp])
-		{
-			if (str && (str[cmp] == '0' || str[cmp] == '1'
-				|| str[cmp] == ' ' || str[cmp] == 'D' || str[cmp] == 'O'
-				|| str[cmp] != 'N' || str[cmp] != 'E'
-				|| str[cmp] != 'S' || str[cmp] != 'W'))
-				tab[lg] = str[cmp];
-			else
-				tab[lg] = '0';
-			cmp++;
-			lg++;
-		}
-		while (cmp < chr)
-		{
-			tab[lg] = '0';
-			cmp++;
-			lg++;
-		}
-		tab[lg++] = 'y';
-		if (str)
-		{
-			free(str);
-			str = get_next_line(fd);
-		}
-		save++;
-	}
-	result = ft_split(tab, 'y');
-	return (result);
-}
-
 int	tab_row(char *name)
 {
 	int		fd;
@@ -80,7 +28,6 @@ int	tab_row(char *name)
 		free(str);
 		str = get_next_line(fd);
 	}
-	free(str);
 	close(fd);
 	return (row);
 }
@@ -108,19 +55,52 @@ int	tab_col(char *name)
 		free(str);
 		str = get_next_line(fd);
 	}
-	free(str);
 	close(fd);
 	return (col);
+}
+
+char	**filling_tab3(char **tab, char *name)
+{
+	int		fd;
+	char	*str;
+	int		i;
+	int		k;
+
+	k = 0;
+	fd = open(name, O_RDONLY);
+	str = get_next_line(fd);
+	while (str)
+	{
+		i = -1;
+		while (!condition_map(str) && str[++i])
+		{
+			if (str[i] == '\n')
+				tab[k++][i] = 0;
+			else
+				tab[k][i] = str[i];
+		}
+		free(str);
+		str = get_next_line(fd);
+	}
+	close(fd);
+	return (tab);
 }
 
 char	**filling_tab(char *name)
 {
 	int		col;
 	int		row;
-	char	*tab;
+	int		i;
+	char	**tab;
 
+	i = 0;
 	col = tab_col(name);
 	row = tab_row(name);
-	tab = ft_calloc(((row + 1) * col), sizeof(char));
-	return (filling_tab3(tab, name, col, row));
+	tab = ft_calloc((row + 1), (sizeof(char *)));
+	while (i < row)
+	{
+		tab[i] = ft_calloc((col + 1), sizeof(char));
+		i++;
+	}
+	return (filling_tab3(tab, name));
 }

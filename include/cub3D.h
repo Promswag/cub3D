@@ -46,6 +46,7 @@ typedef struct s_map
 	int				col;
 	unsigned int	ceiling;
 	unsigned int	floor;
+	char			**path;
 }	t_map;
 
 typedef struct s_player
