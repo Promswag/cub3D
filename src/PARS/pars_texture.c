@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 13:40:42 by aho               #+#    #+#             */
-/*   Updated: 2023/01/10 13:40:43 by aho              ###   ########.fr       */
+/*   Updated: 2023/01/11 15:57:59 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ char	**redirection_texture(char **tab)
 	}
 	redirection[1] = tab[0];
 	redirection[3] = tab[1];
-	redirection[2] = tab[2];
-	redirection[0] = tab[3];
+	redirection[0] = tab[2];
+	redirection[2] = tab[3];
 	redirection[4] = tab[4];
 	return (redirection);
 }

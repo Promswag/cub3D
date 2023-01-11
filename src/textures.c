@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:53:33 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 11:45:21 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 13:54:22 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	load_textures(t_game *game, char **path)
 	int				i;
 	mlx_texture_t	*texture;
 
-	i = 7;
+	i = 5;
 	game->textures = malloc(sizeof(t_texture *) * (i + 1));
 	if (!game->textures)
 		return (1);
@@ -96,10 +96,8 @@ int	load_textures(t_game *game, char **path)
 				return (1);
 		}
 		else
-		{
 			if (load_texture_placeholder(game->textures[i], 32))
 				return (1);
-		}
 	}
 	return (0);
 }

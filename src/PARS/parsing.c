@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 13:04:30 by aho               #+#    #+#             */
-/*   Updated: 2022/12/29 13:04:31 by aho              ###   ########.fr       */
+/*   Updated: 2023/01/11 15:46:56 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ int	check_dir(char *str)
 	while (str[i])
 	{
 		if (str[i] == 'E')
-			return (0);
+			return (E);
 		else if (str[i] == 'N')
-			return (1);
+			return (N);
 		else if (str[i] == 'W')
-			return (2);
+			return (W);
 		else if (str[i] == 'S')
-			return (3);
+			return (S);
 		i++;
 	}
 	return (-1);
@@ -81,10 +81,40 @@ int	check_player(char *name)
 	return (result);
 }
 
+t_point	check_coor(char *name, t_point	coor)
+{
+	t_arg_pars	index;
+	int			i;
+
+	index.fd = open(name, O_RDONLY);
+	index.str = get_next_line(index.fd);
+	while (index.str)
+	{
+		i = -1;
+		if (!condition_map(index.str))
+		{
+			while (index.str[++i])
+			{
+				if (index.str[i] == 'E' || index.str[i] == 'N'
+					|| index.str[i] == 'S' || index.str[i] == 'W')
+					coor.x = i;
+			}
+			coor.y++;
+		}
+		free(index.str);
+		if (coor.x != -1)
+			break ;
+		index.str = get_next_line(index.fd);
+	}
+	close(index.fd);
+	return (coor);
+}
+
 int	parsing(char *name)
 {
 	if (check_map(name) || check_name(name)
-		|| (check_player(name) == -1))
+		|| (check_player(name) == -1)
+		|| nbr_player(name))
 		return (1);
 	return (0);
 }

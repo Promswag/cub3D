@@ -25,29 +25,6 @@ void	p_error(char **tab)
 	free(tab);
 }
 
-int	condition_map(char *str)
-{
-	int	x;
-	int	blank;
-
-	x = 0;
-	blank = 1;
-	while (str[x])
-	{
-		if (str[x] != '1' && str[x] != ' ' && str[x] != '0'
-			&& str[x] != '\n' && str[x] != '\0'
-			&& str[x] != 'N' && str[x] != 'E' && str[x] != 'S' && str[x] != 'W'
-			&& str[x] != 'D' && str[x] != 'O')
-			return (1);
-		if (str[x] != ' ' && str[x] != '\n' && str[x] != '\0')
-			blank = 0;
-		x++;
-	}
-	if (blank == 1)
-		return (1);
-	return (0);
-}
-
 int	nbr_of_line(int fd)
 {
 	char	*str;

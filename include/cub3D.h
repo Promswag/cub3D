@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 13:21:34 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 15:41:05 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,5 +152,7 @@ unsigned int	get_color(int x, int y, t_texture *t);
 float			adjust_angle(float angle);
 t_point			point_add(t_point a, t_point b);
 float			dist(t_point a, t_point b);
+
+t_point			check_coor(char *name, t_point coor);
 
 #endif
