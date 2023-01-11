@@ -28,7 +28,7 @@ int	tab_row(char *name)
 		free(str);
 		str = get_next_line(fd);
 	}
-	close(fd);
+	empty_fd(fd);
 	return (row);
 }
 
@@ -55,7 +55,7 @@ int	tab_col(char *name)
 		free(str);
 		str = get_next_line(fd);
 	}
-	close(fd);
+	empty_fd(fd);
 	return (col);
 }
 
@@ -82,7 +82,7 @@ char	**filling_tab3(char **tab, char *name)
 		free(str);
 		str = get_next_line(fd);
 	}
-	close(fd);
+	empty_fd(fd);
 	return (tab);
 }
 

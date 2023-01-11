@@ -95,14 +95,12 @@ unsigned int	fc_color(char *name, char chr)
 	{
 		stat = 1;
 		if (!condition_color(str, chr))
-		{
 			stat = 0;
-		}
 		if (stat == 1)
 			color = pars_get_color(str);
 		free(str);
 		str = get_next_line(fd);
 	}
-	close(fd);
+	empty_fd(fd);
 	return (color);
 }

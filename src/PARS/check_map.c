@@ -25,32 +25,31 @@ void	p_error(char **tab)
 	free(tab);
 }
 
-int	nbr_of_line(int fd)
+int	nbr_of_line(int fd, int line)
 {
 	char	*str;
 	int		statut;
-	int		line;
 
-	line = 0;
 	statut = 0;
 	str = get_next_line(fd);
 	while (str)
 	{
-		if (statut == 1 && !(condition_map(str)))
+		if (statut && !(condition_map(str)))
 			line++;
-		else if (statut == 1 && condition_map(str))
+		else if (statut && condition_map(str))
 		{
 			free(str);
-			return (-1);
+			return (empty_fd(fd));
 		}
-		else if (statut == 0 && !condition_map(str))
+		else if (!statut && !condition_map(str))
 		{
-			statut = 1;
+			statut++;
 			line++;
 		}
 		free(str);
 		str = get_next_line(fd);
 	}
+	empty_fd(fd);
 	return (line);
 }
 
@@ -79,7 +78,7 @@ int	check_map(char *name)
 	int		result;
 
 	fd = open(name, O_RDONLY);
-	i = nbr_of_line(fd);
+	i = nbr_of_line(fd, 0);
 	if (i == -1 || i == 0)
 		return (1);
 	tab = ft_calloc((i + 1), sizeof(char *));

@@ -38,5 +38,7 @@ char			**path_texture(char *name);
 void			ft_erase(char **array);
 int				nbr_player(char *name);
 int				pars_bonus(char *name);
+int				empty_fd(int fd);
+void			pars_end(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 13:04:30 by aho               #+#    #+#             */
-/*   Updated: 2023/01/11 15:46:56 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:20:34 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ int	check_player(char *name)
 		free(str);
 		str = get_next_line(fd);
 	}
-	close (fd);
+	empty_fd(fd);
 	return (result);
 }
 
-t_point	check_coor(char *name, t_point	coor)
+t_point	check_coor(char *name, t_point coor)
 {
 	t_arg_pars	index;
 	int			i;
@@ -106,7 +106,7 @@ t_point	check_coor(char *name, t_point	coor)
 			break ;
 		index.str = get_next_line(index.fd);
 	}
-	close(index.fd);
+	empty_fd(index.fd);
 	return (coor);
 }
 

@@ -94,6 +94,6 @@ char	**path_texture(char *name)
 			break ;
 		str = get_next_line(fd);
 	}
-	close(fd);
+	empty_fd(fd);
 	return (redirection_texture(direction));
 }

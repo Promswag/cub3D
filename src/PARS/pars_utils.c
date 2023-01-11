@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:55:58 by aho               #+#    #+#             */
-/*   Updated: 2023/01/11 14:05:22 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:12:30 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	nbr_player(char *name)
 		free(arg.str);
 		arg.str = get_next_line(arg.fd);
 	}
+	empty_fd(arg.fd);
 	if (stat == 1)
 		return (0);
 	else
@@ -65,26 +66,47 @@ int	condition_map(char *str)
 
 int	pars_bonus(char *name)
 {
-	t_arg_pars	arg;
+	int			fd;
+	char		*str;
 	int			i;
 
-	arg.fd = open(name, O_RDONLY);
-	arg.str = get_next_line(arg.fd);
-	while (arg.str)
+	fd = open(name, O_RDONLY);
+	str = get_next_line(fd);
+	while (str)
 	{
 		i = 0;
-		while (!condition_map(arg.str) && arg.str[i])
+		while (!condition_map(str) && str[i])
 		{
-			if (arg.str[i] == 'D' || arg.str[i] == 'O')
+			if (str[i] == 'D' || str[i] == 'O')
 			{
-				printf("KEK\n");
-				free(arg.str);
-				return (1);
+				free(str);
+				return (empty_fd(fd) * -1);
 			}
 			i++;
 		}
-		free(arg.str);
-		arg.str = get_next_line(arg.fd);
+		free(str);
+		str = get_next_line(fd);
 	}
+	empty_fd(fd);
 	return (0);
+}
+
+int	empty_fd(int fd)
+{
+	char	*str;
+
+	str = get_next_line(fd);
+	while (str)
+	{
+		free(str);
+		str = get_next_line(fd);
+	}
+	close(fd);
+	return (-1);
+}
+
+void	pars_end(void)
+{
+	printf("Error\n");
+	exit(1);
 }
