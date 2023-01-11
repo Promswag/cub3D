@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include "get_next_line.h"
 # include <stdio.h>
+# include <stdlib.h>
 
 typedef struct s_arg_pars
 {
@@ -35,5 +36,7 @@ int				tab_col(char *name);
 unsigned int	fc_color(char *name, char chr);
 char			**path_texture(char *name);
 void			ft_erase(char **array);
+int				nbr_player(char *name);
+int				pars_bonus(char *name);
 
 #endif

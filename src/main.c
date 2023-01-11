@@ -66,9 +66,10 @@ void	game_terminate(t_game *game)
 t_game	game_init(char *name)
 {
 	t_point coor;
+	t_game	game;
 
-	coor = check_coor(name, (t_point){-1, 1});
-	return ((t_game){
+	coor = check_coor(name, (t_point){-1, 0});
+	game = (t_game){
 		.bonus = 1,
 		.mlx = 0,
 		.map = (t_map){filling_tab(name), tab_row(name), tab_col(name)
@@ -81,7 +82,10 @@ t_game	game_init(char *name)
 									   , (coor.y + 0.5) * TILE_SIZE}},
 		.doors = 0,
 		.keys = (t_keys){0, 0, 0, 0, 0, 0}
-	});
+	};
+//	if (game.bonus == 0 && pars_bonus(name) && game.map.path[4][1])
+//		printf("Error\n");
+	return (game);
 }
 
 int	main(int argc, char **argv)
