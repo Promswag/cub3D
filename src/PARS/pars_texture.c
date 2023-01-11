@@ -66,8 +66,8 @@ char	**redirection_texture(char **tab)
 	}
 	redirection[1] = tab[0];
 	redirection[3] = tab[1];
-	redirection[2] = tab[2];
-	redirection[0] = tab[3];
+	redirection[0] = tab[2];
+	redirection[2] = tab[3];
 	redirection[4] = tab[4];
 	return (redirection);
 }
@@ -94,6 +94,6 @@ char	**path_texture(char *name)
 			break ;
 		str = get_next_line(fd);
 	}
-	close(fd);
+	empty_fd(fd);
 	return (redirection_texture(direction));
 }

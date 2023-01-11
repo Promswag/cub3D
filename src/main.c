@@ -12,63 +12,22 @@
 
 #include "cub3D.h"
 
-char	*g_map[] = {
-	(char []){'1', '1', '1', '1', '1', '1', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '1', '0', '1', 0},
-	(char []){'1', '0', '0', '1', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '1', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', 'D', '1', '1', 'D', '1', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '1', '0', '0', '1', 0},
-	(char []){'1', '0', '1', '1', '1', '0', '1', 0},
-	(char []){'1', '0', '0', '1', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', 'D', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '0', '0', '0', '0', '0', '1', 0},
-	(char []){'1', '1', '1', '1', '1', '1', '1', 0},
-	0
-};
-
-char	*g_textures_path[] = {
-	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
-	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
-	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
-	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_03.png"},
-	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_01.png"},
-	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_01.png"},
-	(char []){"/Users/gbaumgar/Cursus/cub3D/img/wall_02.png"},
-	0
-};
-
-void	game_terminate(t_game *game)
+int	game_terminate(t_game *game, int i)
 {
+	if (i)
+		printf("Error\n");
 	doorlst_destroy(&game->doors);
 	texture_destroy(game->textures);
+	ft_erase(game->map.map);
+	ft_erase(game->map.path);
+	return (1);
 }
 
-t_game	game_init(char *name)
+t_game	game_init(char *name, t_point coor)
 {
-	t_point coor;
-	t_game	game;
+	t_game game;
 
-	coor = check_coor(name, (t_point){-1, 0});
+	coor = check_coor(name, (t_point){-1, -1});
 	game = (t_game){
 		.bonus = 1,
 		.mlx = 0,
@@ -83,8 +42,11 @@ t_game	game_init(char *name)
 		.doors = 0,
 		.keys = (t_keys){0, 0, 0, 0, 0, 0}
 	};
-//	if (game.bonus == 0 && pars_bonus(name) && game.map.path[4][1])
-//		printf("Error\n");
+	if (game.bonus == 0 && (pars_bonus(name) || game.map.path[4][1]))
+	{
+		game_terminate(&game, 0);
+		pars_end();
+	}
 	return (game);
 }
 
@@ -94,24 +56,24 @@ int	main(int argc, char **argv)
 
 	if (argc != 2 || parsing(argv[1]))
 		return (printf("Error\n"));
-	game = game_init(argv[1]);
+	game = game_init(argv[1], (t_point){0, 0});
 	door_loader(&game);
-	if (load_textures(&game, path_texture(argv[1])))
-		return (1);
+	if (load_textures(&game, game.map.path))
+		return (game_terminate(&game, 1));
 	game.mlx = mlx_init(DISPLAY_WIDTH, DISPLAY_HEIGHT, "cub3D", true);
 	if (!game.mlx)
-		return (1);
+		return (game_terminate(&game, 1));
 	mlx_set_window_pos(game.mlx, (2560 - DISPLAY_WIDTH) >> 1, \
 		(1440 - DISPLAY_HEIGHT) >> 1);
 	game.window = mlx_new_image(game.mlx, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	if (!game.window)
-		return (1);
+		return (game_terminate(&game, 1));
 	mlx_set_cursor_mode(game.mlx, MLX_MOUSE_HIDDEN);
 	mlx_set_mouse_pos(game.mlx, DISPLAY_WIDTH >> 1, DISPLAY_HEIGHT >> 1);
 	mlx_key_hook(game.mlx, &key_handler, &game);
 	mlx_loop_hook(game.mlx, &draw, &game);
 	mlx_loop(game.mlx);
-	game_terminate(&game);
+	game_terminate(&game, 0);
 	mlx_terminate(game.mlx);
 	return (0);
 }

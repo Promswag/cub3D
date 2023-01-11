@@ -77,7 +77,7 @@ int	check_player(char *name)
 		free(str);
 		str = get_next_line(fd);
 	}
-	close (fd);
+	empty_fd(fd);
 	return (result);
 }
 
@@ -96,7 +96,7 @@ t_point	check_coor(char *name, t_point	coor)
 			while (index.str[++i])
 			{
 				if (index.str[i] == 'E' || index.str[i] == 'N'
-					|| index.str[i] == 'D' || index.str[i] == 'W')
+					|| index.str[i] == 'S' || index.str[i] == 'W')
 					coor.x = i;
 			}
 			coor.y++;
@@ -106,7 +106,7 @@ t_point	check_coor(char *name, t_point	coor)
 			break ;
 		index.str = get_next_line(index.fd);
 	}
-	close(index.fd);
+	empty_fd(index.fd);
 	return (coor);
 }
 
