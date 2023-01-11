@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 09:26:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 15:25:18 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:41:26 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,25 @@
 
 static void	draw_pixel_door(t_game *game, int x, t_tinfo ti, t_doorlst *d)
 {
-	int		i;
-	int		j;
-	float	o;
-	float	t;
-	int		ratio;
-	int		offset;
+	t_doordata	z;
+	int			i;
+	float		o;
 
+	z = setup_door(game, ti);
 	i = -1;
-	t = -1;
-	j = -1;
-	offset = 0;
-	ratio = ti.dh / 4;
-	if (ti.dh > ti.h)
-	{
-		offset = (ti.dh - DISPLAY_HEIGHT) >> 1;
-		j = (offset / ratio);
-	}
-	if (ti.x < game->textures[4]->width / 2)
-		t = 1;
 	while (++i < ti.h)
 	{
-		if ((i + offset) % ratio == 0 && j < 3)
-			j++;
+		if ((i + z.o) % z.r == 0 && z.j < 3)
+			z.j++;
 		o = ti.x;
-		if (j == (d->frame >> 3))
+		if (z.j == (d->frame >> 3))
 			o = ti.x + ((double)game->textures[4]->width / 64 * \
-			(d->frame - 8 * j) * 4) * t;
-		else if (j < (d->frame >> 3))
+			(d->frame - 8 * z.j) * 4) * z.t;
+		else if (z.j < (d->frame >> 3))
 			o = -1;
-		if ((t == 1 && o >= 0 && o < game->textures[4]->width >> 1) || (t == -1 \
-		&& o >= game->textures[4]->width >> 1 && o < game->textures[4]->width))
+		if ((z.t == 1 && o >= 0 && o < game->textures[4]->width >> 1) || \
+		(z.t == -1 && o >= game->textures[4]->width >> 1 && \
+		o < game->textures[4]->width))
 			mlx_put_pixel(game->window, x, ti.o + i, \
 			get_color(o, ti.y, game->textures[4]));
 		ti.y += ti.r;

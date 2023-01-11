@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:00:58 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 16:25:33 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:29:59 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_game	game_init(char *name)
 	coor = (t_point){0, 0};
 	coor = check_coor(name, (t_point){-1, -1});
 	game = (t_game){
-		.bonus = 1,
+		.bonus = 0,
 		.mlx = 0,
 		.map = (t_map){filling_tab(name), tab_row(name), tab_col(name), \
 			fc_color(name, 'C'), fc_color(name, 'F'), path_texture(name)},

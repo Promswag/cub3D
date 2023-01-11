@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 16:25:15 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:41:17 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,14 @@ typedef struct s_tinfo
 	float	y;
 }	t_tinfo;
 
+typedef struct s_doordata
+{
+	int		j;
+	float	t;
+	int		r;
+	int		o;
+}	t_doordata;
+
 //	inputs.c
 void			bonus_toggler(t_game *game);
 
@@ -155,6 +163,7 @@ unsigned int	get_color(int x, int y, t_texture *t);
 float			adjust_angle(float angle);
 t_point			point_add(t_point a, t_point b);
 float			dist(t_point a, t_point b);
+t_doordata		setup_door(t_game *game, t_tinfo t);
 
 t_point			check_coor(char *name, t_point coor);
 
