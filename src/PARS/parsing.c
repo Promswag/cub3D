@@ -81,7 +81,7 @@ int	check_player(char *name)
 	return (result);
 }
 
-t_point check_coor(char *name, t_point	coor)
+t_point	check_coor(char *name, t_point	coor)
 {
 	t_arg_pars	index;
 	int			i;
