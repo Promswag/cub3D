@@ -6,14 +6,14 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:43:47 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/10 14:46:55 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:21:38 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include <stdio.h>
 
-void	mouse_handler(t_game *game)
+static void	mouse_handler(t_game *game)
 {
 	int	x;
 	int	y;
@@ -33,7 +33,7 @@ void	mouse_handler(t_game *game)
 	}
 }
 
-t_point	move_point(t_game *game, float angle, float step)
+static t_point	move_point(t_game *game, float angle, float step)
 {
 	t_point	p;
 	int		x;

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 10:33:31 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:36:02 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "get_next_line.h"
 # include <math.h>
-#include <stdio.h>
+# include "cub3d_parsing.h"
+# include <stdio.h>
 
 # define TILE_SIZE 64
 # define DISPLAY_WIDTH 1600
@@ -117,6 +118,7 @@ void			movements_handler(t_game *game);
 
 //	textures.c
 int				load_textures(t_game *game, char **path);
+void			texture_destroy(t_texture **textures);
 
 //	minimap.c
 void			draw_minimap(t_game *game);
@@ -141,6 +143,7 @@ t_doorlst		*which_door(t_game *game, int x, int y);
 //	doorlst.c
 t_doorlst		*new_doorlst(unsigned int x, unsigned int y, char status);
 void			doorlst_add_back(t_doorlst **lst, t_doorlst *new);
+void			doorlst_destroy(t_doorlst **lst);
 
 //	utils.c
 unsigned int	get_color(int x, int y, t_texture *t);

@@ -6,35 +6,38 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 09:26:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 10:45:26 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:24:01 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	draw_pixel_door(t_game *game, int x, t_texture_info ti, t_doorlst *d)
+static void	draw_pixel_door(t_game *game, int x, t_texture_info ti, t_doorlst *d)
 {
 	int		i;
 	int		j;
 	float	o;
 	float	t;
+	int		ratio;
 
 	i = -1;
 	j = -1;
 	t = -1;
+	ratio = ti.h / 4;
 	if (ti.x < game->textures[4]->width / 2)
 		t = 1;
 	while (++i < ti.h)
 	{
-		if (i % ((int)ti.h / 4) == 0 && j < 3)
+		if (i % ratio == 0 && j < 3)
 			j++;
 		o = ti.x;
-		if (j == (d->frame / 8))
-			o = ti.x + ((double)game->textures[4]->width / 64 * (d->frame - 8 * j) * 4) * t;
-		else if (j < (d->frame / 8))
+		if (j == (d->frame >> 3))
+			o = ti.x + ((double)game->textures[4]->width / 64 * \
+			(d->frame - 8 * j) * 4) * t;
+		else if (j < (d->frame >> 3))
 			o = -1;
-		if ((t == 1 && o >= 0 && o < game->textures[4]->width / 2) || (t == -1 \
-		&& o >= game->textures[4]->width / 2 && o < game->textures[4]->width))
+		if ((t == 1 && o >= 0 && o < game->textures[4]->width >> 1) || (t == -1 \
+		&& o >= game->textures[4]->width >> 1 && o < game->textures[4]->width))
 			mlx_put_pixel(game->window, x, ti.o + i, \
 			get_color(o, ti.y, game->textures[4]));
 		ti.y += ti.r;
@@ -65,7 +68,7 @@ void	draw_stripe_door(t_game *game, int x, float angle, t_ray ray)
 	}
 }
 
-void	draw_pixel(t_game *game, int x, t_texture_info ti, t_texture *t)
+static void	draw_pixel(t_game *game, int x, t_texture_info ti, t_texture *t)
 {
 	int		i;
 

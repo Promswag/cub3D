@@ -6,13 +6,29 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:53:33 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 10:19:42 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:45:21 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	load_texture_pixels(t_texture *texture, mlx_texture_t *t)
+void	texture_destroy(t_texture **textures)
+{
+	int	i;
+
+	i = -1;
+	if (!textures)
+		return ;
+	while (textures[++i])
+	{
+		if (textures[i]->pixels)
+			free(textures[i]->pixels);
+		free(textures[i]);
+	}
+	free(textures);
+}
+
+static int	load_texture_pixels(t_texture *texture, mlx_texture_t *t)
 {
 	unsigned int	*h;
 	unsigned int	*w;
@@ -40,7 +56,7 @@ int	load_texture_pixels(t_texture *texture, mlx_texture_t *t)
 	return (0);
 }
 
-int	load_texture_placeholder(t_texture *texture, int value)
+static int	load_texture_placeholder(t_texture *texture, int value)
 {
 	int		i;
 	int		max;
@@ -63,11 +79,12 @@ int	load_textures(t_game *game, char **path)
 	int				i;
 	mlx_texture_t	*texture;
 
-	game->textures = malloc(sizeof(t_texture *) * 7);
+	i = 7;
+	game->textures = malloc(sizeof(t_texture *) * (i + 1));
 	if (!game->textures)
 		return (1);
-	i = -1;
-	while (++i < 7)
+	game->textures[i] = 0;
+	while (i--)
 	{
 		game->textures[i] = malloc(sizeof(t_texture));
 		if (!game->textures[i])

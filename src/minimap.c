@@ -6,14 +6,14 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:43:24 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/10 14:43:32 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:21:20 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include <stdio.h>
 
-int	adjust_yx(float a, int b)
+static int	adjust_yx(float a, int b)
 {
 	int	r;
 
@@ -24,7 +24,7 @@ int	adjust_yx(float a, int b)
 	return (r);
 }
 
-void	minimap_color_scheme(t_game *game, char c, int j, int i)
+static void	minimap_color_scheme(t_game *game, char c, int j, int i)
 {
 	if (c == '1')
 		mlx_put_pixel(game->window, j + 2, i + 2, 0x707070FF);
@@ -36,7 +36,7 @@ void	minimap_color_scheme(t_game *game, char c, int j, int i)
 		mlx_put_pixel(game->window, j + 2, i + 2, 0x303030FF);
 }
 
-void	draw_blocs(t_game *game)
+static void	draw_blocs(t_game *game)
 {
 	int		x;
 	int		y;
@@ -59,7 +59,7 @@ void	draw_blocs(t_game *game)
 	}
 }
 
-void	draw_boundaries(t_game *game)
+static void	draw_boundaries(t_game *game)
 {
 	int	x;
 	int	y;
