@@ -36,8 +36,8 @@ GLFW			= -L/Users/${USER}/goinfre/homebrew/Cellar/glfw/3.3.8/lib -lglfw
 
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra 
-# CFLAGS			+= -Werror
-CFLAGS			+= -fsanitize=address
+CFLAGS			+= -Werror -O3
+# CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 
