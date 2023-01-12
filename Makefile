@@ -41,12 +41,11 @@ CFLAGS			+= -Werror -O3
 MKDIR			= mkdir -p
 RM				= rm -rf
 
-all:
+all: ${NAME}
 
 ${NAME}: ${OBJS}
 	make -C libft
 	make -C MLX42
-#	@${CC} libmlx42.a -lglfw -L/Users/${USER}/goinfre/homebrew/Cellar/glfw/3.3.8/lib -o ${NAME} ${LIBFT} ${INCLUDE} ${OBJS} ${CFLAGS}
 	@${CC} ${MLX} ${GLFW} -o ${NAME} ${LIBFT} ${INCLUDE} ${OBJS} ${CFLAGS}
 
 ${OUT_DIR}%.o: %.c Makefile
@@ -70,4 +69,4 @@ bonus: ${BOBJS}
 	make -C MLX42
 	@${CC} ${MLX} ${GLFW} -o ${NAME} ${LIBFT} ${INCLUDE} ${BOBJS} ${CFLAGS}
 
-.PHONY:	all clean fclean re bonus
+.PHONY: all clean fclean re bonus
