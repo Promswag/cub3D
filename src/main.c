@@ -18,6 +18,8 @@ int	game_terminate(t_game *game, int i)
 	doorlst_destroy(&game->doors);
 	texture_destroy(game->textures);
 	ft_erase(game->map.map, 0);
+	if (i)
+		printf("Error\n");
 	if (game->bonus)
 		ft_erase(game->map.path, 0);
 	else
