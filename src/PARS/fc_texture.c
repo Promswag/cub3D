@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:10:26 by aho               #+#    #+#             */
-/*   Updated: 2023/01/11 17:29:37 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:46:21 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ unsigned int	fc_color(char *name, char chr)
 		free(str);
 		str = get_next_line(fd);
 	}
+	if (str)
+		free(str);
 	empty_fd(fd);
 	return (color);
 }

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 16:41:17 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:15:02 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 
 # include "../libft/include/libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
+# include "cub3d_parsing.h"
 # include "get_next_line.h"
 # include <math.h>
-# include "cub3d_parsing.h"
-# include <stdio.h>
 
 # define TILE_SIZE 64
 # define DISPLAY_WIDTH 1600
@@ -116,8 +115,8 @@ typedef struct s_doordata
 {
 	int		j;
 	float	t;
-	int		r;
-	int		o;
+	float	r;
+	float	o;
 }	t_doordata;
 
 //	inputs.c

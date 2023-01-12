@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 09:26:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 16:41:26 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:09:39 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ static void	draw_pixel_door(t_game *game, int x, t_tinfo ti, t_doorlst *d)
 	i = -1;
 	while (++i < ti.h)
 	{
-		if ((i + z.o) % z.r == 0 && z.j < 3)
-			z.j++;
+		z.j = (i + z.o) / z.r;
+		if (z.j > 3)
+			z.j = 3;
 		o = ti.x;
 		if (z.j == (d->frame >> 3))
 			o = ti.x + ((double)game->textures[4]->width / 64 * \

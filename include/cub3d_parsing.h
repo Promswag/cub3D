@@ -6,12 +6,12 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:25:57 by aho               #+#    #+#             */
-/*   Updated: 2023/01/11 17:14:55 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:15:14 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H_PARSING_H
-# define CUB3D_H_PARSING_H
+#ifndef CUB3D_PARSING_H
+# define CUB3D_PARSING_H
 
 # include <fcntl.h>
 # include "get_next_line.h"
