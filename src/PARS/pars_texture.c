@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 13:40:42 by aho               #+#    #+#             */
-/*   Updated: 2023/01/11 17:29:28 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:51:35 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,30 +68,29 @@ char	**redirection_texture(char **tab)
 
 char	**path_texture(char *name)
 {
-	char	**direction;
-	int		fd;
+	char	**dir;
 	char	*str;
 	char	**tab;
-	int		k;
+	int		k[2];
 
-	k = 0;
-	direction = dir_init();
-	fd = open(name, O_RDONLY);
-	str = get_next_line(fd);
+	k[0] = 0;
+	dir = dir_init();
+	k[1] = open(name, O_RDONLY);
+	str = get_next_line(k[1]);
 	while (str)
 	{
 		tab = ft_split(str, ' ');
-		if (tab && condition_map(str) && condition_path(tab[0], direction[k]))
-			direction[k++] = tab[1];
+		if (tab && condition_map(str) && condition_path(tab[0], dir[k[0]]))
+			dir[k[0]++] = tab[1];
 		else
-			direction[4] = calloc(1, 1);
+			dir[4] = calloc(1, 1);
 		free(str);
-		if (k == 5)
-			break ;
-		str = get_next_line(fd);
 		free(tab[0]);
+		free(tab);
+		if (k[0] == 5)
+			break ;
+		str = get_next_line(k[1]);
 	}
-	empty_fd(fd);
-	free(tab);
-	return (redirection_texture(direction));
+	empty_fd(k[1]);
+	return (redirection_texture(dir));
 }
