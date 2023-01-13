@@ -24,6 +24,7 @@ SRC				= 	main.c \
                    	pars/pars_texture.c \
                    	pars/fc_texture.c \
                    	pars/pars_utils.c \
+                   	pars/texture_inspect.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 BSRCC			= ${SRCC:${SRC_DIR}bonus.c=${SRC_DIR}bonus_bonus.c}

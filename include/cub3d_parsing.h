@@ -41,5 +41,6 @@ int				pars_bonus(char *name);
 int				empty_fd(int fd);
 void			pars_end(void);
 void			p_error(char **tab);
+int				check_texture(char *name);
 
 #endif

@@ -114,7 +114,8 @@ int	parsing(char *name)
 {
 	if (check_map(name) || check_name(name)
 		|| (check_player(name) == -1)
-		|| nbr_player(name))
+		|| nbr_player(name)
+		|| check_texture(name) != 4)
 		return (1);
 	return (0);
 }
