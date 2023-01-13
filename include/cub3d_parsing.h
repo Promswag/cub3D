@@ -24,6 +24,12 @@ typedef struct s_arg_pars
 	char	*str;
 }	t_arg_pars;
 
+typedef struct s_nbr_pars
+{
+	int cmp;
+	int	save;
+}	t_nbr_pars;
+
 int				condition_map(char *str);
 int				wall_inspect(char **tab, int line);
 int				check_map(char *name);
@@ -42,5 +48,6 @@ int				empty_fd(int fd);
 void			pars_end(void);
 void			p_error(char **tab);
 int				check_texture(char *name);
+int				check_order(char *name);
 
 #endif

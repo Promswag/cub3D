@@ -115,7 +115,8 @@ int	parsing(char *name)
 	if (check_map(name) || check_name(name)
 		|| (check_player(name) == -1)
 		|| nbr_player(name)
-		|| check_texture(name) != 4)
+		|| check_texture(name) != 6
+		|| check_order(name))
 		return (1);
 	return (0);
 }
