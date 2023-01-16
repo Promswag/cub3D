@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:14:31 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/16 15:15:34 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:23:21 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void	raycaster(t_game *game)
 	ra = adjust_angle(game->player.angle - PI * FOV / 360);
 	step = PI * FOV / 180 / DISPLAY_WIDTH;
 	pixel = -1;
-	printf("%f, %f\n", game->player.coord.y, game->player.coord.x);
 	while (++pixel < DISPLAY_WIDTH)
 	{
 		raycaster_horizontal(game, ra, ray[0]);
