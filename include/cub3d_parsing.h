@@ -31,7 +31,7 @@ typedef struct s_nbr_pars
 }	t_nbr_pars;
 
 int				condition_map(char *str);
-int				wall_inspect(char **tab, int line);
+int				wall_inspect(char **tab, int line, int col);
 int				check_map(char *name);
 char			**filling_tab(char *name);
 int				check_name(char *name);
@@ -45,7 +45,6 @@ void			ft_erase(char **array, int state);
 int				nbr_player(char *name);
 int				pars_bonus(char *name);
 int				empty_fd(int fd);
-void			pars_end(void);
 void			p_error(char **tab);
 int				check_texture(char *name);
 int				check_order(char *name);

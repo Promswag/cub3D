@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include <stdio.h>
 
 void	p_error(char **tab)
 {
@@ -27,7 +28,7 @@ void	p_error(char **tab)
 	free(tab);
 }
 
-int	nbr_of_line(int fd, int line)
+int	blank_line(int fd, int line)
 {
 	char	*str;
 	int		statut;
@@ -55,40 +56,19 @@ int	nbr_of_line(int fd, int line)
 	return (line);
 }
 
-void	fill_tab(char **tab, int fd)
-{
-	char	*str;
-	int		x;
-
-	x = 0;
-	str = get_next_line(fd);
-	while (str)
-	{
-		if (!condition_map(str))
-			tab[x++] = str;
-		else
-			free(str);
-		str = get_next_line(fd);
-	}
-}
-
 int	check_map(char *name)
 {
-	int		fd;
 	char	**tab;
-	int		i;
 	int		result;
+	int		fd;
+	int		res;
 
 	fd = open(name, O_RDONLY);
-	i = nbr_of_line(fd, 0);
-	if (i == -1 || i == 0)
+	res = blank_line(fd, 0);
+	if (res == -1 || res == 0)
 		return (1);
-	tab = ft_calloc((i + 1), sizeof(char *));
-	close(fd);
-	fd = open(name, O_RDONLY);
-	fill_tab(tab, fd);
-	close(fd);
-	result = wall_inspect(tab, i);
+	tab = filling_tab(name);
+	result = wall_inspect(tab, tab_row(name), tab_col(name));
 	p_error(tab);
 	if (result)
 		return (1);
