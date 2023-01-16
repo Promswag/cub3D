@@ -26,7 +26,7 @@ typedef struct s_arg_pars
 
 typedef struct s_nbr_pars
 {
-	int cmp;
+	int	cmp;
 	int	save;
 }	t_nbr_pars;
 

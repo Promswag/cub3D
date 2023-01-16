@@ -14,7 +14,6 @@
 
 int	game_terminate(t_game *game, int i)
 {
-
 	doorlst_destroy(&game->doors);
 	texture_destroy(game->textures);
 	ft_erase(game->map.map, 0);
