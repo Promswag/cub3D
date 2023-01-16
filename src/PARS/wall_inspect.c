@@ -59,7 +59,8 @@ int	wall_inspect_down(char **tab, int line, int x)
 			stat = 1;
 		else if (tab[j][x] == '1')
 			stat = 0;
-		else if (tab[j][x] != ' ' && tab[j][x] != '1' && stat == 1)
+		else if (tab[j][x] != ' ' && tab[j][x] != '1'
+				&& tab[j][x] != 0 && stat == 1)
 			return (1);
 		j++;
 	}
@@ -78,14 +79,15 @@ int	wall_inspect_up(char **tab, int line, int x)
 			stat = 1;
 		else if (tab[line][x] == '1')
 			stat = 0;
-		else if (tab[line][x] != ' ' && tab[line][x] != '1' && stat == 1)
+		else if (tab[line][x] != ' ' && tab[line][x] != '1'
+				&& tab[line][x] != 0 && stat == 1)
 			return (1);
 		line--;
 	}
 	return (0);
 }
 
-int	wall_inspect(char **tab, int line)
+int	wall_inspect(char **tab, int line, int col)
 {
 	int	x;
 	int	j;
@@ -102,7 +104,7 @@ int	wall_inspect(char **tab, int line)
 		x++;
 		j++;
 	}
-	while (tab[x])
+	while (x < col)
 	{
 		if (wall_inspect_down(tab, line, x))
 			return (1);

@@ -104,9 +104,3 @@ int	empty_fd(int fd)
 	close(fd);
 	return (-1);
 }
-
-void	pars_end(void)
-{
-	printf("Error\n");
-	exit(1);
-}
