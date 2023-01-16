@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:09:46 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 11:34:34 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:51:30 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static t_doorlst	*doorlst_last(t_doorlst *lst)
 	return (lst);
 }
 
-void	doorlst_add_back(t_doorlst **lst, t_doorlst *new)
+void	doorlst_add_back(t_doorlst **lst, t_doorlst *elem)
 {
 	if (*lst == NULL)
-		*lst = new;
+		*lst = elem;
 	else
-		doorlst_last(*lst)->next = new;
+		doorlst_last(*lst)->next = elem;
 }
 
 t_doorlst	*new_doorlst(unsigned int x, unsigned int y, char status)

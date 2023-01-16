@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/16 15:15:40 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:50:50 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ t_doorlst		*which_door(t_game *game, int x, int y);
 
 //	doorlst.c
 t_doorlst		*new_doorlst(unsigned int x, unsigned int y, char status);
-void			doorlst_add_back(t_doorlst **lst, t_doorlst *new);
+void			doorlst_add_back(t_doorlst **lst, t_doorlst *elem);
 void			doorlst_destroy(t_doorlst **lst);
 
 //	utils.c
