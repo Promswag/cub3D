@@ -58,7 +58,7 @@ char	**redirection_texture(char **tab)
 			k++;
 		}
 	}
-	redirection[1] = tab[0];
+	redirection[1] = ft_strdup(tab[0]);
 	redirection[3] = tab[1];
 	redirection[0] = tab[2];
 	redirection[2] = tab[3];

@@ -14,11 +14,11 @@
 
 int	game_terminate(t_game *game, int i)
 {
-	if (i)
-		printf("Error\n");
 	doorlst_destroy(&game->doors);
 	texture_destroy(game->textures);
 	ft_erase(game->map.map, 0);
+	if (i)
+		printf("Error\n");
 	if (game->bonus)
 		ft_erase(game->map.path, 0);
 	else
@@ -48,8 +48,8 @@ t_game	game_init(char *name)
 	bonus_toggler(&game);
 	if (game.bonus == 0 && (pars_bonus(name)))
 	{
-		game_terminate(&game, 0);
-		pars_end();
+		game_terminate(&game, 1);
+		exit (1);
 	}
 	return (game);
 }
