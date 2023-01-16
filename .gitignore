@@ -3,5 +3,5 @@
 *.dSYM
 obj
 libft.a
-cub3D
+# cub3D
 .idea
