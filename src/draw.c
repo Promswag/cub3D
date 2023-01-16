@@ -6,13 +6,13 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 09:26:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/12 11:09:39 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:00:53 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	draw_pixel_door(t_game *game, int x, t_tinfo ti, t_doorlst *d)
+static void	draw_pixel_door(t_game *game, int x, t_tinfo ti, t_ray ray)
 {
 	t_doordata	z;
 	int			i;
@@ -26,16 +26,16 @@ static void	draw_pixel_door(t_game *game, int x, t_tinfo ti, t_doorlst *d)
 		if (z.j > 3)
 			z.j = 3;
 		o = ti.x;
-		if (z.j == (d->frame >> 3))
-			o = ti.x + ((double)game->textures[4]->width / 64 * \
-			(d->frame - 8 * z.j) * 4) * z.t;
-		else if (z.j < (d->frame >> 3))
+		if (z.j == (ray.door->frame >> 3))
+			o = ti.x + ((double)ray.t->width / 64 * \
+			(ray.door->frame - 8 * z.j) * 4) * z.t;
+		else if (z.j < (ray.door->frame >> 3))
 			o = -1;
-		if ((z.t == 1 && o >= 0 && o < game->textures[4]->width >> 1) || \
-		(z.t == -1 && o >= game->textures[4]->width >> 1 && \
-		o < game->textures[4]->width))
+		if ((z.t == 1 && o >= 0 && o < ray.t->width >> 1) || \
+		(z.t == -1 && o >= ray.t->width >> 1 && \
+		o < ray.t->width))
 			mlx_put_pixel(game->window, x, ti.o + i, \
-			get_color(o, ti.y, game->textures[4]));
+			get_color(o, ti.y, ray.t));
 		ti.y += ti.r;
 	}
 }
@@ -50,7 +50,7 @@ void	draw_stripe_door(t_game *game, int x, float angle, t_ray ray)
 		ray.distance *= cos(adjust_angle(game->player.angle - angle));
 		t.h = (1.0 * TILE_SIZE * DISPLAY_WIDTH * 60 / FOV) / ray.distance;
 		t.dh = t.h;
-		t.r = 1.0 * game->textures[4]->height / t.h;
+		t.r = 1.0 * ray.t->height / t.h;
 		offset = 0;
 		if (t.h > DISPLAY_HEIGHT)
 		{
@@ -59,13 +59,13 @@ void	draw_stripe_door(t_game *game, int x, float angle, t_ray ray)
 		}
 		t.o = (DISPLAY_HEIGHT - t.h) >> 1;
 		t.y = offset * t.r;
-		t.x = (int)(ray.r.x * game->textures[4]->width / TILE_SIZE) \
-			% game->textures[4]->width;
-		draw_pixel_door(game, x, t, ray.door);
+		t.x = (int)(ray.r.x * ray.t->width / TILE_SIZE) \
+			% ray.t->width;
+		draw_pixel_door(game, x, t, ray);
 	}
 }
 
-static void	draw_pixel(t_game *game, int x, t_tinfo ti, t_texture *t)
+static void	draw_pixel(t_game *game, int x, t_tinfo ti, t_ray ray)
 {
 	int		i;
 
@@ -78,7 +78,7 @@ static void	draw_pixel(t_game *game, int x, t_tinfo ti, t_texture *t)
 	i = -1;
 	while (++i < ti.h)
 	{
-		mlx_put_pixel(game->window, x, ti.o + i, get_color(ti.x, ti.y, t));
+		mlx_put_pixel(game->window, x, ti.o + i, get_color(ti.x, ti.y, ray.t));
 		ti.y += ti.r;
 	}
 }
@@ -90,7 +90,7 @@ void	draw_stripe(t_game *game, int x, float angle, t_ray ray)
 
 	ray.distance *= cos(adjust_angle(game->player.angle - angle));
 	t.h = (1.0 * TILE_SIZE * DISPLAY_WIDTH * 60 / FOV) / ray.distance;
-	t.r = 1.0 * game->textures[ray.direction]->height / t.h;
+	t.r = 1.0 * ray.t->height / t.h;
 	offset = 0;
 	if (t.h > DISPLAY_HEIGHT)
 	{
@@ -99,9 +99,9 @@ void	draw_stripe(t_game *game, int x, float angle, t_ray ray)
 	}
 	t.o = (DISPLAY_HEIGHT - t.h) >> 1;
 	t.y = offset * t.r;
-	t.x = (int)(ray.r.x * game->textures[ray.direction]->width / TILE_SIZE) \
-		% game->textures[ray.direction]->width;
-	draw_pixel(game, x, t, game->textures[ray.direction]);
+	t.x = (int)(ray.r.x * ray.t->width / TILE_SIZE) \
+		% ray.t->width;
+	draw_pixel(game, x, t, ray);
 }
 
 void	draw(void *param)

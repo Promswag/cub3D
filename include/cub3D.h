@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:01:20 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/12 11:15:02 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:15:40 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_ray
 	t_point			o;
 	t_doorlst		*door;
 	unsigned int	direction;
+	t_texture		*t;
 }	t_ray;
 
 typedef struct s_tinfo
@@ -144,7 +145,7 @@ void			draw_stripe_door(t_game *game, int x, float angle, t_ray ray);
 void			raycaster(t_game *game);
 
 //	raycaster_utils.c
-void			raycaster_door(t_game *game, t_ray *ray, int mx, int my);
+int				raycaster_loop(t_game *game, t_ray *ray, t_point p, int *door);
 
 //	door.c
 int				door_loader(t_game *game);

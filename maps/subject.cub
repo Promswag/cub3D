@@ -3,7 +3,7 @@ SO ./img/FOXx.png
 WE ./img/GOATx.png
 EA ./img/TROUTx.png
 
-          F 220,100,0
+F 220,100,0
 C 225,30,0
 
  111    1111111111111111111111111

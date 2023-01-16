@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:14:31 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 10:35:19 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:15:34 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,17 @@ t_ray	*raycaster_step(t_game *game, t_ray *ray)
 	int		i;
 	int		mx;
 	int		my;
+	int		door;
 
+	door = 0;
 	i = -1;
-	while (++i < 50)
+	while (++i < game->map.col || i < game->map.row)
 	{
 		mx = (int)ray[0].r.x >> 6;
 		my = (int)ray[0].r.y >> 6;
 		if (my >= 0 && my < game->map.row && mx >= 0 && mx < game->map.col)
-		{
-			if (game->map.map[my][mx] == '1')
-			{
-				ray[0].distance = dist(game->player.coord, ray[0].r);
+			if (raycaster_loop(game, ray, (t_point){mx, my}, &door))
 				break ;
-			}
-			else if (\
-				game->map.map[my][mx] == 'D' || game->map.map[my][mx] == 'O')
-				raycaster_door(game, ray + 1, mx, my);
-		}
 		ray[0].r = point_add(ray[0].r, ray[0].o);
 		if (ray[1].distance == 1e9)
 			ray[1].r = point_add(ray[1].r, ray[1].o);
@@ -44,13 +38,13 @@ t_ray	*raycaster_step(t_game *game, t_ray *ray)
 
 t_ray	*raycaster_horizontal(t_game *game, float ra, t_ray *ray)
 {
-	float	atan;
+	double	atan;
 
 	ray[0].distance = 1e9;
 	atan = -1 / tan(ra);
 	if (ra > PI)
 	{
-		ray[0].r.y = (((int)game->player.coord.y >> 6) << 6) - 0.0001;
+		ray[0].r.y = (((int)game->player.coord.y >> 6) << 6) - 0.001;
 		ray[0].r.x = (game->player.coord.y - ray[0].r.y) * atan + \
 			game->player.coord.x;
 		ray[0].o = (t_point){0 -(-TILE_SIZE * atan), -TILE_SIZE};
@@ -70,13 +64,13 @@ t_ray	*raycaster_horizontal(t_game *game, float ra, t_ray *ray)
 
 t_ray	*raycaster_vertical(t_game *game, float ra, t_ray *ray)
 {
-	float	atan;
+	double	atan;
 
 	ray[0].distance = 1e9;
 	atan = -tan(ra);
 	if (ra > PI / 2 && ra < 3 * PI / 2)
 	{
-		ray[0].r.x = (((int)game->player.coord.x >> 6) << 6) - 0.0001;
+		ray[0].r.x = (((int)game->player.coord.x >> 6) << 6) - 0.001;
 		ray[0].r.y = (game->player.coord.x - ray[0].r.x) * atan + \
 			game->player.coord.y;
 		ray[0].o = (t_point){-TILE_SIZE, -(-TILE_SIZE * atan)};
@@ -122,6 +116,7 @@ void	raycaster(t_game *game)
 	ra = adjust_angle(game->player.angle - PI * FOV / 360);
 	step = PI * FOV / 180 / DISPLAY_WIDTH;
 	pixel = -1;
+	printf("%f, %f\n", game->player.coord.y, game->player.coord.x);
 	while (++pixel < DISPLAY_WIDTH)
 	{
 		raycaster_horizontal(game, ra, ray[0]);
