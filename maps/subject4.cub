@@ -1,8 +1,8 @@
-NO /Users/gbaumgar/Cursus/cub3D/img/wall_03.png
-SO /Users/gbaumgar/Cursus/cub3D/img/wall_03.png
-WE /Users/gbaumgar/Cursus/cub3D/img/wall_03.png
-EA /Users/gbaumgar/Cursus/cub3D/img/wall_03.png
-DO /Users/gbaumgar/Cursus/cub3D/img/wall_01.png
+NO /Users/gbaumgar/Cursus/cub3D/img/background.png
+SO /Users/gbaumgar/Cursus/cub3D/img/collectible.png
+WE /Users/gbaumgar/Cursus/cub3D/img/exit.png
+EA /Users/gbaumgar/Cursus/cub3D/img/wall.png
+DO /Users/gbaumgar/Cursus/cub3D/img/player.png
 
                     F 169,0,169
 C 128,128,128
