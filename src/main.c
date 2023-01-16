@@ -19,10 +19,11 @@ int	game_terminate(t_game *game, int i)
 	ft_erase(game->map.map, 0);
 	if (i)
 		printf("Error\n");
-	if (game->bonus)
-		ft_erase(game->map.path, 0);
-	else
-		ft_erase(game->map.path, 1);
+	ft_erase(game->map.path, 0);
+//	if (game->bonus)
+//		ft_erase(game->map.path, 0);
+//	else
+//		ft_erase(game->map.path, 1);
 	return (1);
 }
 

@@ -12,32 +12,44 @@
 
 #include "../../include/cub3D.h"
 
-int	condition_path(char *dir, char *stc)
+int	condition_path(char *string, char *direction_brut)
 {
 	int	i;
 	int	k;
+	int	stat;
 
 	k = 0;
 	i = 0;
-	while (stc[i])
-	{
-		if (dir[i] == stc[i])
-			k++;
+	stat = 0;
+	while (string[i] == ' ')
 		i++;
+	while (direction_brut[k] && string[i])
+	{
+		if (direction_brut[k] == string[i])
+			stat++;
+		i++;
+		k++;
 	}
-	if (k == 2)
+	if (stat == 2)
 		return (1);
 	return (0);
 }
 
 char	**dir_init(void)
 {
-	static char	*tab[] = {"NO", "SO", "WE", "EA", "DO", 0};
+	char	**retour;
 
-	return (tab);
+	retour = ft_calloc(6, sizeof(char *));
+	retour[0] = ft_strdup("NO");
+	retour[1] = ft_strdup("SO");
+	retour[2] = ft_strdup("WE");
+	retour[3] = ft_strdup("EA");
+	retour[4] = ft_strdup("DO");
+	retour[5] = 0;
+	return (retour);
 }
 
-char	**redirection_texture(char **tab)
+char	**redirection_texture(char **tab, char **tofree)
 {
 	char	**redirection;
 	int		i;
@@ -48,49 +60,47 @@ char	**redirection_texture(char **tab)
 	while (tab[++i])
 	{
 		k = 0;
-		while (tab[i][k])
-		{
-			if (tab[i][k] == '\n')
-			{
-				tab[i][k] = 0;
-				break ;
-			}
+		while (tab[i][k] && tab[i][k] != '\n')
 			k++;
-		}
+		if (tab[i][k] == '\n')
+			tab[i][k] = 0;
 	}
 	redirection[1] = ft_strdup(tab[0]);
-	redirection[3] = tab[1];
-	redirection[0] = tab[2];
-	redirection[2] = tab[3];
-	redirection[4] = tab[4];
+	redirection[3] = ft_strdup(tab[1]);
+	redirection[0] = ft_strdup(tab[2]);
+	redirection[2] = ft_strdup(tab[3]);
+	redirection[4] = ft_strdup(tab[4]);
+	redirection[5] = 0;
+	p_error(tab);
+	p_error(tofree);
 	return (redirection);
 }
 
 char	**path_texture(char *name)
 {
-	char	**dir;
-	char	*str;
-	char	**tab;
-	int		k[2];
+	t_arg_pars	arg;
+	char		**dir;
+	char		**tab;
+	char		**result;
+	int			i;
 
-	k[0] = 0;
+	i = 0;
+	result = ft_calloc(6, sizeof(char *));
 	dir = dir_init();
-	k[1] = open(name, O_RDONLY);
-	str = get_next_line(k[1]);
-	while (str)
+	arg.fd = open(name, O_RDONLY);
+	arg.str = get_next_line(arg.fd);
+	while (arg.str && i < 5)
 	{
-		tab = ft_split(str, ' ');
-		if (tab && condition_map(str) && condition_path(tab[0], dir[k[0]]))
-			dir[k[0]++] = tab[1];
-		else
-			dir[4] = calloc(1, 1);
-		free(str);
-		free(tab[0]);
-		free(tab);
-		if (k[0] == 5)
-			break ;
-		str = get_next_line(k[1]);
+		if (condition_path(arg.str, dir[i]))
+		{
+			tab = ft_split(arg.str, ' ');
+			result[i] = ft_strdup(tab[1]);
+			p_error(tab);
+			i++;
+		}
+		free(arg.str);
+		arg.str = get_next_line(arg.fd);
 	}
-	empty_fd(k[1]);
-	return (redirection_texture(dir));
+	empty_fd(arg.fd);
+	return (redirection_texture(result, dir));
 }
