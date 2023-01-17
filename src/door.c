@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 10:46:07 by gbaumgar          #+#    #+#             */
-/*   Updated: 2023/01/11 13:46:07 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/17 12:17:46 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,18 @@ void	door_toggle(t_game *game)
 	int			y;
 	int			i;
 
-	if (game->map.map[(int)game->player.coord.y / TILE_SIZE][\
-		(int)game->player.coord.x / TILE_SIZE] == 'O')
-		return ;
 	i = 0;
 	while (i < 96)
 	{
 		x = (game->player.coord.x + cos(game->player.angle) * i) / TILE_SIZE;
 		y = (game->player.coord.y + sin(game->player.angle) * i) / TILE_SIZE;
-		if (door_check(game, x, y))
-			return ;
+		if (game->map.map[y][x] != 'O' || (game->map.map[y][x] == 'O' && \
+			(((int)game->player.coord.y / TILE_SIZE) != y \
+			|| ((int)game->player.coord.x / TILE_SIZE) != x)))
+		{
+			if (door_check(game, x, y))
+				return ;
+		}
 		i += 4;
 	}
 }

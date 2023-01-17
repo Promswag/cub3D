@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 13:40:42 by aho               #+#    #+#             */
-/*   Updated: 2023/01/12 11:51:35 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2023/01/17 12:01:59 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ char	**path_texture(char *name)
 		if (condition_path(arg.str, dir[i]))
 		{
 			tab = ft_split(arg.str, ' ');
-			result[i] = ft_strdup(tab[1]);
+			result[i++] = ft_strdup(tab[1]);
 			p_error(tab);
-			i++;
 		}
 		free(arg.str);
-		arg.str = get_next_line(arg.fd);
+		if (i < 5)
+			arg.str = get_next_line(arg.fd);
 	}
 	empty_fd(arg.fd);
 	return (redirection_texture(result, dir));
